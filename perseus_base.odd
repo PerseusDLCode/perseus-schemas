@@ -77,7 +77,7 @@
           specs to select from the compiled parent; the class deletions
           are then applied on top.</p>
 
-        <schemaSpec ident="perseus_base" xml:lang="en" prefix="tei_" targetLang="en" docLang="en">
+        <schemaSpec ident="perseus_base" xml:lang="en" prefix="tei_" targetLang="en" docLang="en" start="TEI">
           <!-- Mirror tei_bare's module selections so odd2odd.xsl can
                look them up in the compiled parent vocabulary. -->
           <moduleRef key="core" include="p list item label head author title editor pubPlace publisher date bibl biblStruct respStmt resp monogr imprint ref milestone del add note q quote lg l name"/>
