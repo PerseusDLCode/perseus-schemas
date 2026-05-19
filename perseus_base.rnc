@@ -7,7 +7,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-05-12T21:46:26Z. . 
+# Schema generated from ODD source 2026-05-18T20:57:44Z. . 
 # TEI Edition: P5 Version 4.11.0. Last updated on 18th February 2026, revision 358d2e48e 
 # TEI Edition Location: https://www.tei-c.org/Vault/P5/4.11.0/ 
 #
@@ -83,6 +83,63 @@ tei_att.canonical.attribute.ref =
     list {
       xsd:anyURI { pattern = "\S+" }+
     }
+  }?
+tei_att.citing.attributes =
+  tei_att.citing.attribute.unit,
+  tei_att.citing.attribute.from,
+  tei_att.citing.attribute.to
+tei_att.citing.attribute.unit =
+  
+  ## identifies the unit of information conveyed by the element.
+  ## Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line; 5] chapter (chapter); 6] part; 7] column; 8] entry
+  attribute unit {
+    
+    ## (volume) the element contains a volume number.
+    "volume"
+    | 
+      ## the element contains an issue number, or volume and issue numbers.
+      "issue"
+    | 
+      ## (page) the element contains a page number or page range.
+      "page"
+    | 
+      ## the element contains a line number or line range.
+      "line"
+    | 
+      ## (chapter) the element contains a chapter indication (number and/or title)
+      "chapter"
+    | 
+      ## the element identifies a part of a book or collection.
+      "part"
+    | 
+      ## the element identifies a column.
+      "column"
+    | 
+      ## the element identifies an entry number or label in a list of entries.
+      "entry"
+    | xsd:token { pattern = "[^\p{C}\p{Z}]+" }
+  }?
+tei_att.citing.attribute.from =
+  [
+    a:documentation [
+      "specifies the starting point of the range of units indicated by the "
+      ns1:code [ "@unit" ]
+      " attribute."
+    ]
+  ]
+  attribute from {
+    xsd:token { pattern = "[^\p{C}\p{Z}]+" }
+  }?
+tei_att.citing.attribute.to =
+  [
+    a:documentation [
+      "specifies the end-point of the range of units indicated by the "
+      ns1:code [ "@unit" ]
+      " attribute."
+    ]
+  ]
+  attribute to {
+    xsd:token { pattern = "[^\p{C}\p{Z}]+" }
   }?
 tei_att.cmc.attributes = tei_att.cmc.attribute.generatedBy
 tei_att.cmc.attribute.generatedBy =
@@ -207,8 +264,8 @@ sch:pattern [
     "\x{a}" ~
     "         "
     sch:report [
-      test = "@notBefore|@notAfter|@from|@to"
       role = "nonfatal"
+      test = "@notBefore|@notAfter|@from|@to"
       "The @when attribute cannot be used with any other att.datable.w3c attributes."
     ]
     "\x{a}" ~
@@ -227,8 +284,8 @@ sch:pattern [
     "\x{a}" ~
     "         "
     sch:report [
-      test = "@notBefore"
       role = "nonfatal"
+      test = "@notBefore"
       "The @from and @notBefore attributes cannot be used together."
     ]
     "\x{a}" ~
@@ -247,8 +304,8 @@ sch:pattern [
     "\x{a}" ~
     "         "
     sch:report [
-      test = "@notAfter"
       role = "nonfatal"
+      test = "@notAfter"
       "The @to and @notAfter attributes cannot be used together."
     ]
     "\x{a}" ~
@@ -1198,7 +1255,7 @@ tei_model.frontPart.drama = notAllowed
 tei_model.pLike.front = tei_head
 tei_model.divBottomPart = notAllowed
 tei_model.divBottom = tei_model.divWrapper | tei_model.divBottomPart
-tei_model.imprintPart = tei_publisher | tei_pubPlace
+tei_model.imprintPart = tei_publisher | tei_biblScope | tei_pubPlace
 tei_model.addressLike = notAllowed
 tei_model.addressLike_alternation = notAllowed
 tei_model.addressLike_sequence = empty
@@ -1779,7 +1836,7 @@ tei_monogr =
        | tei_funder
        | tei_respStmt)*)*,
      tei_imprint,
-     (tei_imprint)*),
+     (tei_imprint | tei_biblScope)*),
     tei_att.global.attributes,
     empty
   }
@@ -1879,6 +1936,15 @@ tei_publisher =
     tei_macro.phraseSeq,
     tei_att.global.attributes,
     tei_att.canonical.attributes,
+    empty
+  }
+tei_biblScope =
+  
+  ## (scope of bibliographic reference) defines the scope of a bibliographic reference, for example as a list of page numbers, or a named subdivision of a larger work. [3.12.2.5. Scopes and Ranges in Bibliographic Citations]
+  element biblScope {
+    tei_macro.phraseSeq,
+    tei_att.global.attributes,
+    tei_att.citing.attributes,
     empty
   }
 tei_pubPlace =

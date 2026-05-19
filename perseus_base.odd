@@ -19,7 +19,7 @@
           Defines the Perseus-wide "clean room" baseline from which all
           domain-specific Perseus customizations inherit.</p>
       </sourceDesc>
-    </fileDesc><encodingDesc><appInfo><application ident="RomaJS" version="1.3.2" when="2026-05-12T21:16:24.280Z"><desc>File edited with <ref target="https://github.com/TEIC/romajs">RomaJS</ref></desc></application></appInfo></encodingDesc>
+    </fileDesc><encodingDesc><appInfo><application ident="RomaJS" version="1.3.2" when="2026-05-12T21:16:24.280Z"><desc>File edited with <ref target="https://github.com/TEIC/romajs">RomaJS</ref></desc></application></appInfo><appInfo><application ident="RomaJS" version="1.3.2" when="2026-05-18T20:57:33.936Z"><desc>File edited with <ref target="https://github.com/TEIC/romajs">RomaJS</ref></desc></application></appInfo></encodingDesc>
     <revisionDesc>
       <change when="2026-04-02">Initial version: chain from tei_bare, harden
         by deleting att.editLike. Note: att.personal cannot be deleted here
@@ -80,7 +80,7 @@
         <schemaSpec ident="perseus_base" xml:lang="en" prefix="tei_" targetLang="en" docLang="en" start="TEI">
           <!-- Mirror tei_bare's module selections so odd2odd.xsl can
                look them up in the compiled parent vocabulary. -->
-          <moduleRef key="core" include="p list item label head author title editor pubPlace publisher date bibl biblStruct respStmt resp monogr imprint ref milestone del add note q quote lg l name"/>
+          <moduleRef key="core" include="p list item label head author title editor pubPlace publisher date bibl biblStruct respStmt resp monogr imprint ref milestone del add note q quote lg l name biblScope"/>
           <moduleRef key="tei"/>
           <moduleRef key="header" include="teiHeader fileDesc titleStmt publicationStmt sourceDesc editionStmt edition principal refsDecl cRefPattern sponsor biblFull change citeData citeStructure editorialDecl idno language langUsage licence listChange revisionDesc authority availability funder encodingDesc profileDesc refState"/>
           <moduleRef key="textstructure" include="TEI text body div front back"/>
