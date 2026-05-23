@@ -7,7 +7,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-05-18T20:57:44Z. . 
+# Schema generated from ODD source 2026-05-19T15:25:03Z. . 
 # TEI Edition: P5 Version 4.11.0. Last updated on 18th February 2026, revision 358d2e48e 
 # TEI Edition Location: https://www.tei-c.org/Vault/P5/4.11.0/ 
 #
@@ -1200,7 +1200,7 @@ tei_model.global.edit_sequence = empty
 tei_model.global.edit_sequenceOptional = empty
 tei_model.global.edit_sequenceOptionalRepeatable = empty
 tei_model.global.edit_sequenceRepeatable = notAllowed
-tei_model.divPart = tei_model.lLike | tei_model.pLike | tei_lg
+tei_model.divPart = tei_model.lLike | tei_model.pLike | tei_lg | tei_sp
 tei_model.placeNamePart = notAllowed
 tei_model.placeNamePart_alternation = notAllowed
 tei_model.placeNamePart_sequence = empty
@@ -2088,6 +2088,35 @@ tei_lg =
     tei_att.declaring.attributes,
     tei_att.divLike.attributes,
     tei_att.typed.attributes,
+    empty
+  }
+tei_sp =
+  
+  ## (speech) contains an individual speech in a performance text, or a passage presented as such in a prose or verse text. [3.13.2. Core Tags for Drama 3.13. Passages of Verse or Drama 7.2.2. Speeches and Speakers]
+  element sp {
+    (tei_model.stageLike
+     | tei_model.global
+     | tei_model.lLike
+     | tei_model.pLike
+     | tei_model.listLike
+     | tei_model.attributable
+     | tei_speaker
+     | tei_lg
+     | tei_q)*,
+    tei_att.global.attributes,
+    tei_att.ascribed.directed.attributes,
+    tei_att.placement.attributes,
+    tei_att.written.attributes,
+    empty
+  }
+tei_speaker =
+  
+  ## contains a specialized form of heading or label, giving the name of one or more speakers in a dramatic text or fragment. [3.13.2. Core Tags for Drama]
+  element speaker {
+    tei_macro.phraseSeq,
+    tei_att.global.attributes,
+    tei_att.placement.attributes,
+    tei_att.written.attributes,
     empty
   }
 tei_att.citeStructurePart.attributes =
