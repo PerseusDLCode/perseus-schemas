@@ -9,9 +9,9 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-06-04T22:13:56Z. . 
-# TEI Edition: P5 Version 4.11.0. Last updated on 18th February 2026, revision 358d2e48e 
-# TEI Edition Location: https://www.tei-c.org/Vault/P5/4.11.0/ 
+# Schema generated from ODD source 2026-06-04T22:15:06Z. . 
+# TEI Edition:  
+# TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
 
 #
@@ -193,7 +193,7 @@ att.datable.w3c.attribute.to =
   }?
 sch:pattern [
   id =
-    "perseus_core-att.datable.w3c-att-datable-w3c-when-constraint-rule-1"
+    "perseus_prose-att.datable.w3c-att-datable-w3c-when-constraint-rule-1"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -213,7 +213,7 @@ sch:pattern [
 ]
 sch:pattern [
   id =
-    "perseus_core-att.datable.w3c-att-datable-w3c-from-constraint-rule-2"
+    "perseus_prose-att.datable.w3c-att-datable-w3c-from-constraint-rule-2"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -233,7 +233,7 @@ sch:pattern [
 ]
 sch:pattern [
   id =
-    "perseus_core-att.datable.w3c-att-datable-w3c-to-constraint-rule-3"
+    "perseus_prose-att.datable.w3c-att-datable-w3c-to-constraint-rule-3"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -401,7 +401,7 @@ att.global.source.attribute.source =
   }?
 sch:pattern [
   id =
-    "perseus_core-att.global.source-source-only_1_ODD_source-constraint-rule-4"
+    "perseus_prose-att.global.source-source-only_1_ODD_source-constraint-rule-4"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -511,7 +511,7 @@ att.pointing.attribute.targetLang =
   }?
 sch:pattern [
   id =
-    "perseus_core-att.pointing-targetLang-targetLang-constraint-rule-5"
+    "perseus_prose-att.pointing-targetLang-targetLang-constraint-rule-5"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -642,7 +642,7 @@ att.typed.attribute.subtype =
     xsd:token { pattern = "[^\p{C}\p{Z}]+" }
   }?
 sch:pattern [
-  id = "perseus_core-att.typed-subtypeTyped-constraint-rule-6"
+  id = "perseus_prose-att.typed-subtypeTyped-constraint-rule-6"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -1247,7 +1247,7 @@ att.calendarSystem.attribute.calendar =
   }?
 sch:pattern [
   id =
-    "perseus_core-att.calendarSystem-calendar-calendar_attr_on_empty_element-constraint-rule-7"
+    "perseus_prose-att.calendarSystem-calendar-calendar_attr_on_empty_element-constraint-rule-7"
   "\x{a}" ~
   "      "
   sch:rule [
@@ -1275,7 +1275,7 @@ p =
     macro.paraContent
     >> sch:pattern [
          id =
-           "perseus_core-p-abstractModel-structure-p-in-ab-or-p-constraint-rule-8"
+           "perseus_prose-p-abstractModel-structure-p-in-ab-or-p-constraint-rule-8"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -1297,7 +1297,7 @@ p =
        ]
     >> sch:pattern [
          id =
-           "perseus_core-p-abstractModel-structure-p-in-l-constraint-rule-9"
+           "perseus_prose-p-abstractModel-structure-p-in-l-constraint-rule-9"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -1364,7 +1364,7 @@ ref =
   element ref {
     macro.paraContent
     >> sch:pattern [
-         id = "perseus_core-ref-refAtts-constraint-rule-10"
+         id = "perseus_prose-ref-refAtts-constraint-rule-10"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -1554,7 +1554,7 @@ l =
     ((text | model.gLike | model.phrase | model.inter | model.global)*)
     >> sch:pattern [
          id =
-           "perseus_core-l-abstractModel-structure-l-in-l-constraint-rule-11"
+           "perseus_prose-l-abstractModel-structure-l-in-l-constraint-rule-11"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -1818,7 +1818,7 @@ citeStructure =
     attribute match { text }
     >> sch:pattern [
          id =
-           "perseus_core-citeStructure-match-citestructure-outer-match-constraint-rule-12"
+           "perseus_prose-citeStructure-match-citestructure-outer-match-constraint-rule-12"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -1839,7 +1839,7 @@ citeStructure =
        ]
     >> sch:pattern [
          id =
-           "perseus_core-citeStructure-match-citestructure-inner-match-constraint-rule-13"
+           "perseus_prose-citeStructure-match-citestructure-inner-match-constraint-rule-13"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -2000,7 +2000,7 @@ body =
       (model.divBottom, model.global*)*)?)
     >> sch:pattern [
          id =
-           "perseus_core-div-abstractModel-structure-div-in-l-constraint-rule-14"
+           "perseus_prose-div-abstractModel-structure-div-in-l-constraint-rule-14"
          "\x{a}" ~
          "            "
          sch:rule [
@@ -2021,7 +2021,7 @@ body =
        ]
     >> sch:pattern [
          id =
-           "perseus_core-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-15"
+           "perseus_prose-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-15"
          "\x{a}" ~
          "            "
          sch:rule [

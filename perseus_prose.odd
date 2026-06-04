@@ -4,7 +4,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Perseus Core</title>
+        <title>Perseus Prose</title>
         <respStmt>
           <name xml:id="cew">Clifford Wulfman</name>
           <resp>author</resp>
@@ -14,18 +14,18 @@
         <distributor>Perseus Digital Library</distributor>
       </publicationStmt>
       <sourceDesc>
-        <p>Developed ex nihilo.</p>
+        <p>Chained from perseus_base.</p>
       </sourceDesc>
     </fileDesc>
   </teiHeader>
   <text>
     <body>
-      <head>The Core Perseus Customization</head>
-      <p>This ODD file defines the elements and attributes which may occur in any Perseus document.
-        It is meant to be the base for higher-level schemas.</p>
+      <head>Perseus Prose Customization</head>
+      <p>This ODD defines the schema for Perseus prose texts. It chains from
+        <ref target="perseus_base.odd">perseus_base</ref>, inheriting its element set and
+        applying prose-specific restrictions.</p>
 
-
-      <schemaSpec ident="perseus_core" start="TEI" docLang="en">
+      <schemaSpec ident="perseus_prose" source="perseus_base.compiled.odd" start="TEI" docLang="en">
 
         <moduleRef key="tei"/>
         <moduleRef key="core"
@@ -34,22 +34,6 @@
           include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc refsDecl citeStructure profileDesc langUsage language licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
         <moduleRef key="verse"/>
-
-
-        <!-- Perseus does not transcribe spoken language, recordings, or computer-mediate
-             communication -->
-        <classSpec module="tei" ident="att.cmc" type="atts" mode="delete"/>
-        <classSpec module="tei" ident="model.cmc" type="model" mode="delete"/>
-        <classSpec module="tei" ident="att.duration" type="atts" mode="delete"/>
-        <classSpec module="tei" ident="att.duration.w3c" type="atts" mode="delete"/>
-        
-        <!-- Perseus does not describe manuscripts -->
-        <classSpec module="tei" ident="att.written" type="atts" mode="delete"/>
-        <classSpec module="tei" ident="att.handFeatures" type="atts" mode="delete"/>
-        
-        <!-- Perseus does not describe the Internet -->
-        <classSpec module="tei" ident="att.internetMedia" type="atts" mode="delete"/>
-        
 
       </schemaSpec>
 
