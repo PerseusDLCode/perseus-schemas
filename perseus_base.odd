@@ -140,10 +140,24 @@
 
         <moduleRef key="tei"/>
         <moduleRef key="core"
-          include="p title author editor pubPlace publisher date bibl biblStruct biblScope respStmt resp monogr imprint ref quote name l sp speaker"/>
+          include="p head note hi foreign cit gloss gap lb pb
+                   title author editor pubPlace publisher date
+                   bibl biblStruct biblScope respStmt resp monogr imprint
+                   ref quote name milestone list item label
+                   add del choice abbr expan
+                   l sp speaker"/>
+        <moduleRef key="analysis" include="s w"/>
+        <moduleRef key="linking" include="seg"/>
         <moduleRef key="header"
-          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc classDecl taxonomy category catDesc refsDecl citeStructure profileDesc langUsage language textClass catRef licence change revisionDesc"/>
+          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc
+                   principal sponsor funder authority availability idno
+                   encodingDesc classDecl taxonomy category catDesc
+                   refsDecl cRefPattern citeStructure
+                   editorialDecl correction normalization quotation
+                   profileDesc langUsage language textClass catRef
+                   licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
+        <moduleRef key="namesdates" include="persName orgName placeName"/>
         <moduleRef key="verse"/>
 
 
