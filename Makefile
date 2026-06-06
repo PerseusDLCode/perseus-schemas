@@ -21,7 +21,7 @@ ODDFLAGS    := defaultSource=$(P5SUBSET) currentDirectory=$(CURDIR)/
 # ============================================================
 .PHONY: all clean check
 
-all: tei_minimal.compiled.odd perseus_base.rnc perseus_prose.rnc
+all: tei_minimal.compiled.odd perseus_base.rnc perseus_prose.rnc perseus_verse.rnc perseus_drama.rnc
 
 # ------ tei_bare (pedagogical reference, not part of the build chain) -------
 tei_bare.compiled.odd: tei_bare.odd $(P5SUBSET)
@@ -63,6 +63,16 @@ perseus_verse.rng: perseus_verse.compiled.odd
 	$(SAXON) -s:$< -xsl:$(ODD2RNG_XSL) -o:$@
 
 perseus_verse.rnc: perseus_verse.rng
+	$(TRANG) $< $@
+
+# ------ perseus_drama ------------------------------------------
+perseus_drama.compiled.odd: perseus_drama.odd perseus_base.compiled.odd $(P5SUBSET)
+	$(SAXON) -s:$< -xsl:$(ODD2ODD_XSL) -o:$@ $(ODDFLAGS)
+
+perseus_drama.rng: perseus_drama.compiled.odd
+	$(SAXON) -s:$< -xsl:$(ODD2RNG_XSL) -o:$@
+
+perseus_drama.rnc: perseus_drama.rng
 	$(TRANG) $< $@
 
 # ------ future ODDs (uncomment as created) ---------------------

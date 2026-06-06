@@ -4,7 +4,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Perseus Verse</title>
+        <title>Perseus Drama</title>
         <respStmt>
           <name xml:id="cew">Clifford Wulfman</name>
           <resp>author</resp>
@@ -20,18 +20,19 @@
   </teiHeader>
   <text>
     <body>
-      <head>Perseus Verse Customization</head>
-      <p>This ODD defines the schema for Perseus verse texts. It chains from
+      <head>Perseus Drama Customization</head>
+      <p>This ODD defines the schema for Perseus dramatic texts. It chains from
         <ref target="perseus_base.odd">perseus_base</ref>, inheriting its element set and
-        applying verse-specific restrictions.</p>
-      <p>The controlled vocabulary for the <att>met</att> attribute is drawn from standard
-        classical scholarship (West, <title>Greek Metre</title>; Raven, <title>Latin
-        Metre</title>). Values marked as suitable for <gi>lg</gi> describe stanza forms;
-        values marked for <gi>l</gi> describe individual line types. The list is open
-        (<val>type="semi"</val>) pending review against the Musisque Deoque and Digital
-        Latin Library encoding practices.</p>
+        applying drama-specific additions.</p>
+      <p>The TEI <gi>drama</gi> module adds <gi>stage</gi> (stage directions) and cast-list
+        elements (<gi>castList</gi>, <gi>castItem</gi>, <gi>role</gi>, <gi>roleDesc</gi>).
+        Speech elements (<gi>sp</gi>, <gi>speaker</gi>) are inherited from the
+        <gi>core</gi> module in perseus_base.</p>
+      <p>The controlled metrical vocabulary is shared with perseus_verse: dramatic texts
+        contain verse passages (iambic trimeter, anapests, dochmiacs, etc.) that may carry
+        <att>met</att> annotation.</p>
 
-      <schemaSpec ident="perseus_verse" source="perseus_base.compiled.odd" start="TEI" docLang="en">
+      <schemaSpec ident="perseus_drama" source="perseus_base.compiled.odd" start="TEI" docLang="en">
 
         <moduleRef key="tei"/>
         <moduleRef key="core"
@@ -40,9 +41,11 @@
           include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc classDecl taxonomy category catDesc refsDecl citeStructure profileDesc langUsage language textClass catRef licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
         <moduleRef key="verse"/>
+        <moduleRef key="drama" include="stage castList castItem role roleDesc"/>
 
-        <!-- Constrain @met to a controlled vocabulary of Greek and Latin meters.
-             type="semi" allows values outside the list while flagging them during validation. -->
+        <!-- Constrain @met to the same controlled vocabulary as perseus_verse.
+             Drama texts contain verse passages: iambic trimeter in dialogue,
+             anapests and dochmiacs in lyric. type="semi" allows unlisted values. -->
         <classSpec ident="att.metrical" module="verse" mode="change" type="atts">
           <attList>
             <attDef ident="met" mode="change">

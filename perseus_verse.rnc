@@ -9,7 +9,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-06-06T18:18:41Z. . 
+# Schema generated from ODD source 2026-06-06T19:48:53Z. . 
 # TEI Edition:  
 # TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
@@ -251,6 +251,51 @@ sch:pattern [
   "\x{a}" ~
   "   "
 ]
+att.datcat.attributes =
+  att.datcat.attribute.datcat,
+  att.datcat.attribute.valueDatcat,
+  att.datcat.attribute.targetDatcat
+att.datcat.attribute.datcat =
+  [
+    a:documentation [
+      "provides a pointer to a definition of, and/or general information about, (a) an information container (element or attribute) or (b) a value of an information container (element content or attribute value), by referencing an external taxonomy or ontology. If "
+      ns1:code [ "@valueDatcat" ]
+      " is present in the immediate context, this attribute takes on role (a), while "
+      ns1:code [ "@valueDatcat" ]
+      " performs role (b)."
+    ]
+  ]
+  attribute datcat {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
+att.datcat.attribute.valueDatcat =
+  [
+    a:documentation [
+      "provides a definition of, and/or general information about a value of an information container (element content or attribute value), by reference to an external taxonomy or ontology. Used especially where a contrast with "
+      ns1:code [ "@datcat" ]
+      " is needed."
+    ]
+  ]
+  attribute valueDatcat {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
+att.datcat.attribute.targetDatcat =
+  [
+    a:documentation [
+      "provides a definition of, and/or general information about, information structure of an object referenced or modeled by the containing element, by reference to an external taxonomy or ontology. This attribute has the characteristics of the "
+      ns1:code [ "@datcat" ]
+      " attribute, except that it addresses not its containing element, but an object that is being referenced or modeled by its containing element."
+    ]
+  ]
+  attribute targetDatcat {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
 att.declarable.attributes = att.declarable.attribute.default
 att.declarable.attribute.default =
   
@@ -1105,6 +1150,7 @@ model.divTop = model.divWrapper | model.divTopPart
 model.divBottomPart = notAllowed
 model.divBottom = model.divWrapper | model.divBottomPart
 model.imprintPart = publisher | biblScope | pubPlace
+model.catDescPart = notAllowed
 model.addressLike = notAllowed
 model.addressLike_alternation = notAllowed
 model.addressLike_sequence = empty
@@ -1210,8 +1256,8 @@ model.divGenLike = notAllowed
 model.div1Like = notAllowed
 model.teiHeaderPart = encodingDesc | profileDesc
 model.sourceDescPart = notAllowed
-model.encodingDescPart = refsDecl | metDecl
-model.profileDescPart = langUsage
+model.encodingDescPart = refsDecl | classDecl | metDecl
+model.profileDescPart = langUsage | textClass
 model.resource = \text
 att.personal.attributes =
   att.naming.attributes,
@@ -1487,7 +1533,7 @@ imprint =
   
   ## groups information relating to the publication or distribution of a bibliographic item. [3.12.2.4. Imprint, Size of a Document, and Reprint Information]
   element imprint {
-    (empty*,
+    ((catRef)*,
      ((model.imprintPart | model.dateLike), respStmt*, model.global*)+),
     att.global.attributes,
     empty
@@ -1871,6 +1917,45 @@ citeStructure =
     }?,
     empty
   }
+classDecl =
+  
+  ## (classification declarations) contains one or more taxonomies defining any classificatory codes used elsewhere in the text. [2.3.7. The Classification Declaration 2.3. The Encoding Description]
+  element classDecl { taxonomy+, att.global.attributes, empty }
+taxonomy =
+  
+  ## (taxonomy) defines a typology either implicitly, by means of a bibliographic citation, or explicitly by a structured taxonomy. [2.3.7. The Classification Declaration]
+  element taxonomy {
+    (((category | taxonomy)+
+      | ((model.descLike)+, (category | taxonomy)*))
+     | (model.biblLike, (category | taxonomy)*)),
+    att.global.attributes,
+    att.datcat.attributes,
+    empty
+  }
+category =
+  
+  ## (category) contains an individual descriptive category, possibly nested within a superordinate category, within a user-defined taxonomy. [2.3.7. The Classification Declaration]
+  element category {
+    ((catDesc+ | (model.descLike)*),
+     category*),
+    att.global.attributes,
+    att.datcat.attributes,
+    empty
+  }
+catDesc =
+  [
+    a:documentation [
+      "(category description) describes some category within a taxonomy or text typology, either in the form of a brief prose description or in terms of the situational parameters used by the TEI formal "
+      ns1:code [ "<textDesc>" ]
+      ". [2.3.7. The Classification Declaration]"
+    ]
+  ]
+  element catDesc {
+    (text | model.limitedPhrase | model.catDescPart)*,
+    att.global.attributes,
+    att.canonical.attributes,
+    empty
+  }
 profileDesc =
   
   ## (text-profile description) provides a detailed description of non-bibliographic aspects of a text, specifically the languages and sublanguages used, the situation in which it was produced, the participants and their setting. [2.4. The Profile Description 2.1.1. The TEI Header and Its Components]
@@ -1911,6 +1996,31 @@ language =
     
     ## specifies the approximate percentage of the text which uses this language.
     attribute usage { xsd:nonNegativeInteger }?,
+    empty
+  }
+textClass =
+  
+  ## (text classification) groups information which describes the nature or topic of a text in terms of a standard classification scheme, thesaurus, etc. [2.4.3. The Text Classification]
+  element textClass {
+    (catRef)*, att.global.attributes, att.declarable.attributes, empty
+  }
+catRef =
+  
+  ## (category reference) specifies one or more defined categories within some taxonomy or text typology. [2.4.3. The Text Classification]
+  element catRef {
+    empty,
+    att.global.attributes,
+    att.pointing.attributes,
+    [
+      a:documentation [
+        "identifies the classification scheme within which the set of categories concerned is defined, for example by a "
+        ns1:code [ "<taxonomy>" ]
+        " element, or by some other resource."
+      ]
+    ]
+    attribute scheme {
+      xsd:anyURI { pattern = "\S+" }
+    }?,
     empty
   }
 revisionDesc =
