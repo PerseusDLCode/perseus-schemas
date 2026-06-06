@@ -17,6 +17,117 @@
         <p>Developed ex nihilo.</p>
       </sourceDesc>
     </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="perseus-genre">
+          <bibl>Perseus Digital Library genre taxonomy. Documents reference this taxonomy
+            via <gi>textClass</gi>/<gi>catRef</gi> in <gi>profileDesc</gi>, e.g.:
+            <code>&lt;catRef scheme="#perseus-genre" target="#verse-epic"/&gt;</code>
+            Each leaf category determines the CTS citation scheme for the document.
+          </bibl>
+
+          <category xml:id="drama">
+            <catDesc>Dramatic texts.</catDesc>
+            <category xml:id="attic-tragedy">
+              <catDesc>Attic tragedy (Aeschylus, Sophocles, Euripides).
+                Citation: line.</catDesc>
+            </category>
+            <category xml:id="attic-comedy">
+              <catDesc>Attic comedy (Aristophanes, Menander).
+                Citation: line.</catDesc>
+            </category>
+            <category xml:id="roman-comedy">
+              <catDesc>Roman comedy (Plautus, Terence).
+                Citation: line.</catDesc>
+            </category>
+            <category xml:id="roman-tragedy">
+              <catDesc>Roman tragedy (Seneca).
+                Citation: line.</catDesc>
+            </category>
+            <category xml:id="early-modern-drama">
+              <catDesc>Early modern drama (Shakespeare, Marlowe, and contemporaries).
+                Citation: act → scene → line.</catDesc>
+            </category>
+          </category>
+
+          <category xml:id="verse">
+            <catDesc>Verse texts.</catDesc>
+            <category xml:id="verse-epic">
+              <catDesc>Epic verse (Homer, Virgil, Apollonius, Lucan, Statius).
+                Citation: book → line.</catDesc>
+            </category>
+            <category xml:id="verse-didactic">
+              <catDesc>Didactic verse (Hesiod, Aratus). Texts without book divisions
+                are cited by line only; those with books (Lucretius) by book → line.
+                Citation: line, or book → line.</catDesc>
+            </category>
+            <category xml:id="verse-elegiac">
+              <catDesc>Elegiac verse (Tibullus, Propertius, Ovid Amores/Tristia, Theognis).
+                Citation: book → poem → line.</catDesc>
+            </category>
+            <category xml:id="verse-lyric-choral">
+              <catDesc>Choral lyric (Bacchylides and others excluding Pindar).
+                Citation: ode → line.</catDesc>
+            </category>
+            <category xml:id="verse-lyric-pindaric">
+              <catDesc>Pindaric ode. Triadic structure (strophe, antistrophe, epode)
+                requires its own citation scheme.
+                Citation: ode → strophe/antistrophe/epode → line.</catDesc>
+            </category>
+            <category xml:id="verse-lyric-monodic">
+              <catDesc>Monodic lyric (Sappho, Alcaeus, Horace Odes).
+                Citation: poem → line, or book → poem → line.</catDesc>
+            </category>
+            <category xml:id="verse-satiric">
+              <catDesc>Satiric and epistolary verse (Horace Satires/Epistles, Juvenal, Persius).
+                Citation: book → poem → line.</catDesc>
+            </category>
+            <category xml:id="verse-epigram">
+              <catDesc>Epigrammatic verse (Callimachus, Martial).
+                Citation: book → poem.</catDesc>
+            </category>
+            <category xml:id="verse-iambic">
+              <catDesc>Iambic verse (Archilochus, Hipponax).
+                Citation: line.</catDesc>
+            </category>
+          </category>
+
+          <category xml:id="prose">
+            <catDesc>Prose texts.</catDesc>
+            <category xml:id="prose-historiography">
+              <catDesc>Historiography (Thucydides, Herodotus, Livy, Caesar, Tacitus).
+                Citation: book → chapter → section.</catDesc>
+            </category>
+            <category xml:id="prose-philosophy">
+              <catDesc>Philosophical prose, excluding Platonic dialogue (Aristotle, Epicurus).
+                Aristotle cited by Bekker numbers (book → section).
+                Citation: book → section.</catDesc>
+            </category>
+            <category xml:id="prose-dialogue">
+              <catDesc>Platonic dialogue. Cited by Stephanus pagination, which cuts across
+                internal structure. Citation: section (Stephanus page + letter).</catDesc>
+            </category>
+            <category xml:id="prose-oratory">
+              <catDesc>Oratory (Demosthenes, Cicero speeches, Lysias).
+                Citation: speech → section.</catDesc>
+            </category>
+            <category xml:id="prose-biography">
+              <catDesc>Biography (Plutarch, Suetonius).
+                Citation: chapter → section.</catDesc>
+            </category>
+            <category xml:id="prose-epistolary">
+              <catDesc>Letter collections (Cicero Letters, Pliny the Younger).
+                Citation: book → letter.</catDesc>
+            </category>
+            <category xml:id="prose-geography">
+              <catDesc>Geographical prose (Strabo, Pausanias).
+                Citation: book → section.</catDesc>
+            </category>
+          </category>
+
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
   </teiHeader>
   <text>
     <body>
@@ -31,7 +142,7 @@
         <moduleRef key="core"
           include="p title author editor pubPlace publisher date bibl biblStruct biblScope respStmt resp monogr imprint ref quote name l sp speaker"/>
         <moduleRef key="header"
-          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc refsDecl citeStructure profileDesc langUsage language licence change revisionDesc"/>
+          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc classDecl taxonomy category catDesc refsDecl citeStructure profileDesc langUsage language textClass catRef licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
         <moduleRef key="verse"/>
 
