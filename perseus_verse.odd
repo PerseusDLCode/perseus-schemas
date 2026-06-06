@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Perseus Verse</title>
+        <respStmt>
+          <name xml:id="cew">Clifford Wulfman</name>
+          <resp>author</resp>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <distributor>Perseus Digital Library</distributor>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Chained from perseus_base.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <head>Perseus Verse Customization</head>
+      <p>This ODD defines the schema for Perseus verse texts. It chains from
+        <ref target="perseus_base.odd">perseus_base</ref>, inheriting its element set and
+        applying verse-specific restrictions.</p>
+      <p>The controlled vocabulary for the <att>met</att> attribute is drawn from standard
+        classical scholarship (West, <title>Greek Metre</title>; Raven, <title>Latin
+        Metre</title>). Values marked as suitable for <gi>lg</gi> describe stanza forms;
+        values marked for <gi>l</gi> describe individual line types. The list is open
+        (<val>type="semi"</val>) pending review against the Musisque Deoque and Digital
+        Latin Library encoding practices.</p>
+
+      <schemaSpec ident="perseus_verse" source="perseus_base.compiled.odd" start="TEI" docLang="en">
+
+        <moduleRef key="tei"/>
+        <moduleRef key="core"
+          include="p title author editor pubPlace publisher date bibl biblStruct biblScope respStmt resp monogr imprint ref quote name l sp speaker"/>
+        <moduleRef key="header"
+          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc refsDecl citeStructure profileDesc langUsage language licence change revisionDesc"/>
+        <moduleRef key="textstructure" include="TEI text body div"/>
+        <moduleRef key="verse"/>
+
+        <!-- Constrain @met to a controlled vocabulary of Greek and Latin meters.
+             type="semi" allows values outside the list while flagging them during validation. -->
+        <classSpec ident="att.metrical" module="verse" mode="change" type="atts">
+          <attList>
+            <attDef ident="met" mode="change">
+              <valList type="semi">
+
+                <!-- Dactylic / Elegiac -->
+                <valItem ident="dactylic-hexameter">
+                  <desc>Standard line of Greek and Latin epic and didactic verse. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="dactylic-pentameter">
+                  <desc>Second line of the elegiac couplet. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="elegiac-couplet">
+                  <desc>Hexameter + pentameter pair. Use on <gi>lg</gi>.</desc>
+                </valItem>
+
+                <!-- Iambic -->
+                <valItem ident="iambic-trimeter">
+                  <desc>Standard dialogue line in Greek drama; equivalent to Latin iambic senarius. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="iambic-septenarius">
+                  <desc>Common in Roman comedy (Plautus, Terence). Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Trochaic -->
+                <valItem ident="trochaic-tetrameter">
+                  <desc>Trochaic tetrameter catalectic; Greek drama and Latin comedy. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="trochaic-septenarius">
+                  <desc>Common in Roman comedy. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Anapestic -->
+                <valItem ident="anapestic-dimeter">
+                  <desc>Greek drama marching songs and lyric passages. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="anapestic-tetrameter">
+                  <desc>Anapestic tetrameter catalectic. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Sapphic -->
+                <valItem ident="sapphic-strophe">
+                  <desc>Three sapphic lines + adonic. Use on <gi>lg</gi>.</desc>
+                </valItem>
+                <valItem ident="sapphic-hendecasyllable">
+                  <desc>Lines 1–3 of the sapphic strophe. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="adonic">
+                  <desc>— ∪ ∪ — ×; closing line of the sapphic strophe. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Alcaic -->
+                <valItem ident="alcaic-strophe">
+                  <desc>Four-line Alcaic stanza (Horace). Use on <gi>lg</gi>.</desc>
+                </valItem>
+                <valItem ident="alcaic-decasyllable">
+                  <desc>Lines 1–2 of the alcaic strophe. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="alcaic-enneasyllable">
+                  <desc>Line 3 of the alcaic strophe. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Asclepiadean / Hendecasyllabic -->
+                <valItem ident="phalaecian-hendecasyllable">
+                  <desc>Phalaecian hendecasyllable (Catullus, Martial). Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="lesser-asclepiadean">
+                  <desc>Lesser asclepiadean. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="greater-asclepiadean">
+                  <desc>Greater asclepiadean. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="glyconic">
+                  <desc>Glyconic. Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="pherecratean">
+                  <desc>Pherecratean; closing line of several Horatian systems. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+                <!-- Other lyric / dramatic -->
+                <valItem ident="anacreontic">
+                  <desc>Ionic dimeter (anacreontic). Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="choliamb">
+                  <desc>Scazon; iambic trimeter with final spondee (Catullus, Babrius). Use on <gi>l</gi>.</desc>
+                </valItem>
+                <valItem ident="dochmiac">
+                  <desc>Dochmiac; tragic lyric for agitation or grief. Use on <gi>l</gi>.</desc>
+                </valItem>
+
+              </valList>
+            </attDef>
+          </attList>
+        </classSpec>
+
+      </schemaSpec>
+
+    </body>
+  </text>
+</TEI>
