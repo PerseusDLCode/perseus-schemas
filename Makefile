@@ -55,6 +55,16 @@ perseus_prose.rng: perseus_prose.compiled.odd
 perseus_prose.rnc: perseus_prose.rng
 	$(TRANG) $< $@
 
+# ------ perseus_verse ------------------------------------------
+perseus_verse.compiled.odd: perseus_verse.odd perseus_base.compiled.odd $(P5SUBSET)
+	$(SAXON) -s:$< -xsl:$(ODD2ODD_XSL) -o:$@ $(ODDFLAGS)
+
+perseus_verse.rng: perseus_verse.compiled.odd
+	$(SAXON) -s:$< -xsl:$(ODD2RNG_XSL) -o:$@
+
+perseus_verse.rnc: perseus_verse.rng
+	$(TRANG) $< $@
+
 # ------ future ODDs (uncomment as created) ---------------------
 # perseus_early_modern.compiled.odd: perseus_early_modern.odd \
 #     perseus_base.compiled.odd $(P5SUBSET)
