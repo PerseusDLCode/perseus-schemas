@@ -4,5 +4,4 @@ CLAUDE.md
 
 # Build intermediates — regenerate with: make
 *.compiled.odd
-*.rng
 out/
