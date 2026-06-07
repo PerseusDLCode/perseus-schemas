@@ -152,13 +152,14 @@
           include="teiHeader fileDesc titleStmt publicationStmt sourceDesc
                    principal sponsor funder authority availability idno
                    encodingDesc classDecl taxonomy category catDesc
-                   refsDecl cRefPattern citeStructure
+                   refsDecl cRefPattern refState citeStructure
                    editorialDecl correction normalization quotation
                    profileDesc langUsage language textClass catRef
                    licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
         <moduleRef key="namesdates" include="persName orgName placeName"/>
         <moduleRef key="verse"/>
+        <moduleRef key="dictionaries"/>
 
 
         <!-- Perseus does not transcribe spoken language, recordings, or computer-mediate
