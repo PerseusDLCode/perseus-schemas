@@ -149,25 +149,32 @@
           include="p head note hi foreign cit gloss gap lb pb
                    title author editor pubPlace publisher date
                    bibl biblStruct biblScope respStmt resp monogr imprint
-                   ref quote name milestone list item label
-                   add del choice abbr expan
+                   ref quote q name milestone list item label
+                   add del choice abbr expan corr sic
+                   num emph lg term rs series listBibl
+                   graphic
                    l sp speaker stage"/>
         <moduleRef key="analysis" include="s w"/>
-        <moduleRef key="linking" include="seg"/>
+        <moduleRef key="linking" include="seg anchor ab"/>
         <moduleRef key="header"
           include="teiHeader fileDesc titleStmt publicationStmt sourceDesc
+                   editionStmt extent notesStmt
                    principal sponsor funder authority availability idno
-                   encodingDesc classDecl taxonomy category catDesc
+                   encodingDesc projectDesc classDecl taxonomy category catDesc
                    refsDecl cRefPattern refState citeStructure
                    editorialDecl correction normalization quotation
-                   profileDesc langUsage language textClass catRef
+                   profileDesc creation langUsage language textClass keywords catRef
                    licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
-        <moduleRef key="namesdates" include="persName orgName placeName"/>
+        <moduleRef key="namesdates" include="persName orgName placeName surname forename addName"/>
         <moduleRef key="verse"/>
         <!-- The drama module supplies cast-list elements. <stage> is NOT here: in TEI P5 it
              belongs to the core module (added to the core include list above). -->
         <moduleRef key="drama" include="castList castItem role roleDesc"/>
+        <!-- figures module: <figure> and its caption <figDesc> (embedded <graphic> is a core
+             element, listed in the core include above). Children must declare this module to
+             use figures (see ODD-CHAINING-PROTOCOL.md). -->
+        <moduleRef key="figures" include="figure figDesc"/>
         <moduleRef key="dictionaries"/>
 
         <!-- Constrain @met to a controlled vocabulary of Greek and Latin meters, defined ONCE

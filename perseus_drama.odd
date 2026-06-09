@@ -42,6 +42,7 @@
         <moduleRef key="textstructure"/>
         <moduleRef key="namesdates"/>
         <moduleRef key="verse"/>
+        <moduleRef key="figures"/>
         <moduleRef key="drama"/>
       </schemaSpec>
 
