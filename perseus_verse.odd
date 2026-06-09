@@ -33,12 +33,31 @@
 
       <schemaSpec ident="perseus_verse" source="perseus_base.compiled.odd" start="TEI" docLang="en">
 
+        <!-- A schemaSpec with source= does NOT auto-inherit the source's modules: each module
+             must be re-declared here, and its include= list must be COMPLETE. A short include
+             list silently drops every base element not relisted (the cause of the verse/drama
+             validation errors). These moduleRefs therefore mirror perseus_base / perseus_prose
+             exactly; verse adds no new elements, only the @met constraint in the classSpec below. -->
         <moduleRef key="tei"/>
         <moduleRef key="core"
-          include="p title author editor pubPlace publisher date bibl biblStruct biblScope respStmt resp monogr imprint ref quote name l sp speaker"/>
+          include="p head note hi foreign cit gloss gap lb pb
+                   title author editor pubPlace publisher date
+                   bibl biblStruct biblScope respStmt resp monogr imprint
+                   ref quote name milestone list item label
+                   add del choice abbr expan
+                   l sp speaker"/>
+        <moduleRef key="analysis" include="s w"/>
+        <moduleRef key="linking" include="seg"/>
         <moduleRef key="header"
-          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc principal sponsor authority availability idno encodingDesc classDecl taxonomy category catDesc refsDecl citeStructure profileDesc langUsage language textClass catRef licence change revisionDesc"/>
+          include="teiHeader fileDesc titleStmt publicationStmt sourceDesc
+                   principal sponsor funder authority availability idno
+                   encodingDesc classDecl taxonomy category catDesc
+                   refsDecl cRefPattern citeStructure
+                   editorialDecl correction normalization quotation
+                   profileDesc langUsage language textClass catRef
+                   licence change revisionDesc"/>
         <moduleRef key="textstructure" include="TEI text body div"/>
+        <moduleRef key="namesdates" include="persName orgName placeName"/>
         <moduleRef key="verse"/>
 
         <!-- Constrain @met to a controlled vocabulary of Greek and Latin meters.
