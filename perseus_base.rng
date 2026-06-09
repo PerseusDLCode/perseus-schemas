@@ -5,16 +5,34 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2026-06-09T20:58:51Z. . 
+Schema generated from ODD source 2026-06-09T21:17:46Z. . 
 TEI Edition: P5 Version 4.11.0. Last updated on 18th February 2026, revision 358d2e48e 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.11.0/ 
   
 --><!---->
+   <define name="macro.abContent">
+      <zeroOrMore>
+         <choice>
+            <text/>
+            <ref name="model.paraPart"/>
+            <ref name="ab"/>
+         </choice>
+      </zeroOrMore>
+   </define>
    <define name="macro.paraContent">
       <zeroOrMore>
          <choice>
             <text/>
             <ref name="model.paraPart"/>
+         </choice>
+      </zeroOrMore>
+   </define>
+   <define name="macro.limitedContent">
+      <zeroOrMore>
+         <choice>
+            <text/>
+            <ref name="model.limitedPhrase"/>
+            <ref name="model.inter"/>
          </choice>
       </zeroOrMore>
    </define>
@@ -845,6 +863,17 @@ Suggested values include: 1] top; 2] bottom; 3] margin; 4] opposite; 5] overleaf
          </attribute>
       </optional>
    </define>
+   <define name="att.resourced.attributes">
+      <ref name="att.resourced.attribute.url"/>
+   </define>
+   <define name="att.resourced.attribute.url">
+      <attribute name="url">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(uniform resource locator) specifies the URL from which the media concerned may be obtained.</a:documentation>
+         <data type="anyURI">
+            <param name="pattern">\S+</param>
+         </data>
+      </attribute>
+   </define>
    <define name="att.scope.attributes">
       <ref name="att.scope.attribute.scope"/>
    </define>
@@ -1176,6 +1205,45 @@ Sample values include: 1] all; 2] most; 3] range</a:documentation>
          </attribute>
       </optional>
    </define>
+   <define name="att.media.attributes">
+      <ref name="att.media.attribute.width"/>
+      <ref name="att.media.attribute.height"/>
+      <ref name="att.media.attribute.scale"/>
+   </define>
+   <define name="att.media.attribute.width">
+      <optional>
+         <attribute name="width">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Where the media are displayed, indicates the display width.</a:documentation>
+            <data type="token">
+               <param name="pattern">[\-+]?\d+(\.\d+)?(%|cm|mm|in|pt|pc|px|em|ex|ch|rem|vw|vh|vmin|vmax)</param>
+            </data>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.media.attribute.height">
+      <optional>
+         <attribute name="height">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Where the media are displayed, indicates the display height.</a:documentation>
+            <data type="token">
+               <param name="pattern">[\-+]?\d+(\.\d+)?(%|cm|mm|in|pt|pc|px|em|ex|ch|rem|vw|vh|vmin|vmax)</param>
+            </data>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.media.attribute.scale">
+      <optional>
+         <attribute name="scale">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Where the media are displayed, indicates a scale factor to be applied when generating the desired display size.</a:documentation>
+            <choice>
+               <data type="double"/>
+               <data type="token">
+                  <param name="pattern">(\-?[\d]+/\-?[\d]+)</param>
+               </data>
+               <data type="decimal"/>
+            </choice>
+         </attribute>
+      </optional>
+   </define>
    <define name="att.naming.attributes">
       <ref name="att.canonical.attributes"/>
       <ref name="att.naming.attribute.role"/>
@@ -1394,48 +1462,66 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.hiLike">
       <choice>
          <ref name="hi"/>
+         <ref name="q"/>
       </choice>
    </define>
    <define name="model.hiLike_alternation">
       <choice>
          <ref name="hi"/>
+         <ref name="q"/>
       </choice>
    </define>
    <define name="model.hiLike_sequence">
       <ref name="hi"/>
+      <ref name="q"/>
    </define>
    <define name="model.hiLike_sequenceOptional">
       <optional>
          <ref name="hi"/>
+      </optional>
+      <optional>
+         <ref name="q"/>
       </optional>
    </define>
    <define name="model.hiLike_sequenceOptionalRepeatable">
       <zeroOrMore>
          <ref name="hi"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="q"/>
+      </zeroOrMore>
    </define>
    <define name="model.hiLike_sequenceRepeatable">
       <oneOrMore>
          <ref name="hi"/>
       </oneOrMore>
+      <oneOrMore>
+         <ref name="q"/>
+      </oneOrMore>
    </define>
    <define name="model.emphLike">
       <choice>
          <ref name="foreign"/>
+         <ref name="emph"/>
          <ref name="gloss"/>
+         <ref name="term"/>
          <ref name="title"/>
       </choice>
    </define>
    <define name="model.emphLike_alternation">
       <choice>
          <ref name="foreign"/>
+         <ref name="emph"/>
          <ref name="gloss"/>
+         <ref name="term"/>
          <ref name="title"/>
       </choice>
    </define>
    <define name="model.emphLike_sequence">
       <ref name="foreign"/>
+      <ref name="emph"/>
       <ref name="gloss"/>
+      <ref name="term"/>
       <ref name="title"/>
    </define>
    <define name="model.emphLike_sequenceOptional">
@@ -1443,7 +1529,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="foreign"/>
       </optional>
       <optional>
+         <ref name="emph"/>
+      </optional>
+      <optional>
          <ref name="gloss"/>
+      </optional>
+      <optional>
+         <ref name="term"/>
       </optional>
       <optional>
          <ref name="title"/>
@@ -1454,7 +1546,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="foreign"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="emph"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="gloss"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="term"/>
       </zeroOrMore>
       <zeroOrMore>
          <ref name="title"/>
@@ -1465,7 +1563,13 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="foreign"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="emph"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="gloss"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="term"/>
       </oneOrMore>
       <oneOrMore>
          <ref name="title"/>
@@ -1540,22 +1644,32 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
    </define>
    <define name="model.measureLike">
-      <notAllowed/>
+      <choice>
+         <ref name="num"/>
+      </choice>
    </define>
    <define name="model.measureLike_alternation">
-      <notAllowed/>
+      <choice>
+         <ref name="num"/>
+      </choice>
    </define>
    <define name="model.measureLike_sequence">
-      <empty/>
+      <ref name="num"/>
    </define>
    <define name="model.measureLike_sequenceOptional">
-      <empty/>
+      <optional>
+         <ref name="num"/>
+      </optional>
    </define>
    <define name="model.measureLike_sequenceOptionalRepeatable">
-      <empty/>
+      <zeroOrMore>
+         <ref name="num"/>
+      </zeroOrMore>
    </define>
    <define name="model.measureLike_sequenceRepeatable">
-      <notAllowed/>
+      <oneOrMore>
+         <ref name="num"/>
+      </oneOrMore>
    </define>
    <define name="model.egLike">
       <notAllowed/>
@@ -1576,22 +1690,32 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <notAllowed/>
    </define>
    <define name="model.graphicLike">
-      <notAllowed/>
+      <choice>
+         <ref name="graphic"/>
+      </choice>
    </define>
    <define name="model.graphicLike_alternation">
-      <notAllowed/>
+      <choice>
+         <ref name="graphic"/>
+      </choice>
    </define>
    <define name="model.graphicLike_sequence">
-      <empty/>
+      <ref name="graphic"/>
    </define>
    <define name="model.graphicLike_sequenceOptional">
-      <empty/>
+      <optional>
+         <ref name="graphic"/>
+      </optional>
    </define>
    <define name="model.graphicLike_sequenceOptionalRepeatable">
-      <empty/>
+      <zeroOrMore>
+         <ref name="graphic"/>
+      </zeroOrMore>
    </define>
    <define name="model.graphicLike_sequenceRepeatable">
-      <notAllowed/>
+      <oneOrMore>
+         <ref name="graphic"/>
+      </oneOrMore>
    </define>
    <define name="model.offsetLike">
       <notAllowed/>
@@ -1683,21 +1807,33 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.pPart.transcriptional">
       <choice>
+         <ref name="sic"/>
+         <ref name="corr"/>
          <ref name="add"/>
          <ref name="del"/>
       </choice>
    </define>
    <define name="model.pPart.transcriptional_alternation">
       <choice>
+         <ref name="sic"/>
+         <ref name="corr"/>
          <ref name="add"/>
          <ref name="del"/>
       </choice>
    </define>
    <define name="model.pPart.transcriptional_sequence">
+      <ref name="sic"/>
+      <ref name="corr"/>
       <ref name="add"/>
       <ref name="del"/>
    </define>
    <define name="model.pPart.transcriptional_sequenceOptional">
+      <optional>
+         <ref name="sic"/>
+      </optional>
+      <optional>
+         <ref name="corr"/>
+      </optional>
       <optional>
          <ref name="add"/>
       </optional>
@@ -1707,6 +1843,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.pPart.transcriptional_sequenceOptionalRepeatable">
       <zeroOrMore>
+         <ref name="sic"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="corr"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="add"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -1714,6 +1856,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
    </define>
    <define name="model.pPart.transcriptional_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="sic"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="corr"/>
+      </oneOrMore>
       <oneOrMore>
          <ref name="add"/>
       </oneOrMore>
@@ -1852,6 +2000,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="milestone"/>
          <ref name="pb"/>
          <ref name="lb"/>
+         <ref name="anchor"/>
       </choice>
    </define>
    <define name="model.milestoneLike_alternation">
@@ -1859,12 +2008,14 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="milestone"/>
          <ref name="pb"/>
          <ref name="lb"/>
+         <ref name="anchor"/>
       </choice>
    </define>
    <define name="model.milestoneLike_sequence">
       <ref name="milestone"/>
       <ref name="pb"/>
       <ref name="lb"/>
+      <ref name="anchor"/>
    </define>
    <define name="model.milestoneLike_sequenceOptional">
       <optional>
@@ -1875,6 +2026,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="lb"/>
+      </optional>
+      <optional>
+         <ref name="anchor"/>
       </optional>
    </define>
    <define name="model.milestoneLike_sequenceOptionalRepeatable">
@@ -1887,6 +2041,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="lb"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="anchor"/>
+      </zeroOrMore>
    </define>
    <define name="model.milestoneLike_sequenceRepeatable">
       <oneOrMore>
@@ -1897,6 +2054,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="lb"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="anchor"/>
       </oneOrMore>
    </define>
    <define name="model.gLike">
@@ -1960,17 +2120,20 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="bibl"/>
          <ref name="biblStruct"/>
+         <ref name="listBibl"/>
       </choice>
    </define>
    <define name="model.biblLike_alternation">
       <choice>
          <ref name="bibl"/>
          <ref name="biblStruct"/>
+         <ref name="listBibl"/>
       </choice>
    </define>
    <define name="model.biblLike_sequence">
       <ref name="bibl"/>
       <ref name="biblStruct"/>
+      <ref name="listBibl"/>
    </define>
    <define name="model.biblLike_sequenceOptional">
       <optional>
@@ -1978,6 +2141,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="biblStruct"/>
+      </optional>
+      <optional>
+         <ref name="listBibl"/>
       </optional>
    </define>
    <define name="model.biblLike_sequenceOptionalRepeatable">
@@ -1987,6 +2153,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <zeroOrMore>
          <ref name="biblStruct"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="listBibl"/>
+      </zeroOrMore>
    </define>
    <define name="model.biblLike_sequenceRepeatable">
       <oneOrMore>
@@ -1994,6 +2163,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
       <oneOrMore>
          <ref name="biblStruct"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="listBibl"/>
       </oneOrMore>
    </define>
    <define name="model.headLike">
@@ -2139,29 +2311,41 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.pLike">
       <choice>
          <ref name="p"/>
+         <ref name="ab"/>
       </choice>
    </define>
    <define name="model.pLike_alternation">
       <choice>
          <ref name="p"/>
+         <ref name="ab"/>
       </choice>
    </define>
    <define name="model.pLike_sequence">
       <ref name="p"/>
+      <ref name="ab"/>
    </define>
    <define name="model.pLike_sequenceOptional">
       <optional>
          <ref name="p"/>
+      </optional>
+      <optional>
+         <ref name="ab"/>
       </optional>
    </define>
    <define name="model.pLike_sequenceOptionalRepeatable">
       <zeroOrMore>
          <ref name="p"/>
       </zeroOrMore>
+      <zeroOrMore>
+         <ref name="ab"/>
+      </zeroOrMore>
    </define>
    <define name="model.pLike_sequenceRepeatable">
       <oneOrMore>
          <ref name="p"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="ab"/>
       </oneOrMore>
    </define>
    <define name="model.stageLike">
@@ -2265,6 +2449,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="model.lLike"/>
          <ref name="model.pLike"/>
+         <ref name="lg"/>
          <ref name="sp"/>
       </choice>
    </define>
@@ -2453,6 +2638,8 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.choicePart">
       <choice>
+         <ref name="sic"/>
+         <ref name="corr"/>
          <ref name="abbr"/>
          <ref name="expan"/>
          <ref name="seg"/>
@@ -2497,6 +2684,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.nameLike.agent"/>
          <ref name="model.offsetLike"/>
          <ref name="model.placeStateLike"/>
+         <ref name="rs"/>
          <ref name="idno"/>
          <ref name="model.persNamePart"/>
          <ref name="lang"/>
@@ -2507,6 +2695,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.nameLike.agent_alternation"/>
          <ref name="model.offsetLike_alternation"/>
          <ref name="model.placeStateLike_alternation"/>
+         <ref name="rs"/>
          <ref name="idno"/>
          <ref name="model.persNamePart_alternation"/>
          <ref name="lang"/>
@@ -2516,6 +2705,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <ref name="model.nameLike.agent_sequence"/>
       <ref name="model.offsetLike_sequence"/>
       <ref name="model.placeStateLike_sequence"/>
+      <ref name="rs"/>
       <ref name="idno"/>
       <ref name="model.persNamePart_sequence"/>
       <ref name="lang"/>
@@ -2529,6 +2719,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </optional>
       <optional>
          <ref name="model.placeStateLike_sequenceOptional"/>
+      </optional>
+      <optional>
+         <ref name="rs"/>
       </optional>
       <optional>
          <ref name="idno"/>
@@ -2551,6 +2744,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.placeStateLike_sequenceOptionalRepeatable"/>
       </zeroOrMore>
       <zeroOrMore>
+         <ref name="rs"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="idno"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -2571,6 +2767,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.placeStateLike_sequenceRepeatable"/>
       </oneOrMore>
       <oneOrMore>
+         <ref name="rs"/>
+      </oneOrMore>
+      <oneOrMore>
          <ref name="idno"/>
       </oneOrMore>
       <oneOrMore>
@@ -2586,6 +2785,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.milestoneLike"/>
          <ref name="model.noteLike"/>
          <ref name="model.global.edit"/>
+         <ref name="figure"/>
       </choice>
    </define>
    <define name="model.biblPart">
@@ -2593,7 +2793,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.respLike"/>
          <ref name="model.imprintPart"/>
          <ref name="quote"/>
+         <ref name="series"/>
          <ref name="bibl"/>
+         <ref name="extent"/>
          <ref name="availability"/>
       </choice>
    </define>
@@ -2677,6 +2879,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       <choice>
          <ref name="model.divPart"/>
          <ref name="model.inter"/>
+         <ref name="q"/>
          <ref name="model.entryLike"/>
       </choice>
    </define>
@@ -2702,6 +2905,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.global"/>
          <ref name="model.inter"/>
          <ref name="model.phrase"/>
+         <ref name="lg"/>
       </choice>
    </define>
    <define name="model.limitedPhrase">
@@ -2737,6 +2941,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.encodingDescPart">
       <choice>
+         <ref name="projectDesc"/>
          <ref name="editorialDecl"/>
          <ref name="refsDecl"/>
          <ref name="classDecl"/>
@@ -2752,6 +2957,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.profileDescPart">
       <choice>
+         <ref name="creation"/>
          <ref name="langUsage"/>
          <ref name="textClass"/>
       </choice>
@@ -2936,6 +3142,14 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
          <empty/>
       </element>
    </define>
+   <define name="emph">
+      <element name="emph">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(emphasized) marks words or phrases which are stressed or emphasized for linguistic or rhetorical effect. [3.3.2.2. Emphatic Words and Phrases 3.3.2. Emphasis, Foreign Words, and Unusual Language]</a:documentation>
+         <ref name="macro.paraContent"/>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="hi">
       <element name="hi">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(highlighted) marks a word or phrase as graphically distinct from the surrounding text, for reasons concerning which no claim is made. [3.3.2.2. Emphatic Words and Phrases 3.3.2. Emphasis, Foreign Words, and Unusual Language]</a:documentation>
@@ -2954,6 +3168,44 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
          <empty/>
       </element>
    </define>
+   <define name="q">
+      <element name="q">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(quoted) contains material which is distinguished from the surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and passages that are mentioned but not used. [3.3.3. Quotation]</a:documentation>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.ascribed.directed.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(type) may be used to indicate whether the offset passage is spoken or thought, or to characterize it more finely.
+Suggested values include: 1] spoken (spoken); 2] thought (thought); 3] written (written); 4] soCalled (so called); 5] foreign (foreign); 6] distinct (distinct); 7] term; 8] emph (emph); 9] mentioned (mentioned)</a:documentation>
+               <choice>
+                  <value>spoken</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(spoken) representation of speech</a:documentation>
+                  <value>thought</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(thought) representation of thought, e.g. internal monologue</a:documentation>
+                  <value>written</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(written) quotation from a written source</a:documentation>
+                  <value>soCalled</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(so called) authorial distance</a:documentation>
+                  <value>foreign</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(foreign) foreign words</a:documentation>
+                  <value>distinct</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(distinct) linguistically distinct</a:documentation>
+                  <value>term</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">technical term</a:documentation>
+                  <value>emph</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(emph) rhetorically emphasized</a:documentation>
+                  <value>mentioned</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(mentioned) refering to itself, not its normal referent</a:documentation>
+                  <data type="token">
+                     <param name="pattern">[^\p{C}\p{Z}]+</param>
+                  </data>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
    <define name="cit">
       <element name="cit">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cited quotation) contains a quotation from some other document, together with a bibliographic reference to its source. In a dictionary it may contain an example text with at least one occurrence of the word form, used in the sense being described, or a translation of the headword, or an example. [3.3.3. Quotation 4.3.1. Grouped Texts 10.3.5.1. Examples]</a:documentation>
@@ -2966,6 +3218,7 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
                <ref name="model.graphicLike"/>
                <ref name="model.ptrLike"/>
                <ref name="model.attributable"/>
+               <ref name="q"/>
             </choice>
          </oneOrMore>
          <ref name="att.global.attributes"/>
@@ -2981,6 +3234,38 @@ Suggested values include: 1] page; 2] column; 3] line; 4] book; 5] poem; 6] cant
          <ref name="att.cReferencing.attributes"/>
          <ref name="att.declaring.attributes"/>
          <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="term">
+      <element name="term">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(term) contains a single-word, multi-word, or symbolic designation which is regarded as a technical term. [3.4.1. Terms and Glosses]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.cReferencing.attributes"/>
+         <ref name="att.canonical.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.sortable.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="sic">
+      <element name="sic">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Latin for thus or so) contains text reproduced although apparently incorrect or inaccurate. [3.5.1. Apparent Errors]</a:documentation>
+         <ref name="macro.paraContent"/>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="corr">
+      <element name="corr">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(correction) contains the correct form of a passage apparently erroneous in the copy text. [3.5.1. Apparent Errors]</a:documentation>
+         <ref name="macro.paraContent"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.editLike.attributes"/>
          <ref name="att.typed.attributes"/>
          <empty/>
       </element>
@@ -3091,6 +3376,58 @@ Sample values include: 1] rubbing (rubbing); 2] mildew (mildew); 3] smoke (smoke
          <ref name="att.editLike.attributes"/>
          <ref name="att.personal.attributes"/>
          <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="rs">
+      <element name="rs">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(referencing string) contains a general purpose name or referring string. [14.2.1. Personal Names 3.6.1. Referring Strings]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.naming.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="num">
+      <element name="num">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(number) contains a number, written in any form. [3.6.3. Numbers and
+Measures]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.ranging.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the type of numeric value.
+Suggested values include: 1] cardinal; 2] ordinal; 3] fraction; 4] percentage</a:documentation>
+               <choice>
+                  <value>cardinal</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">absolute number, e.g. 21, 21.5</a:documentation>
+                  <value>ordinal</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">ordinal number, e.g. 21st</a:documentation>
+                  <value>fraction</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">fraction, e.g. one half or three-quarters</a:documentation>
+                  <value>percentage</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a percentage</a:documentation>
+                  <data type="token">
+                     <param name="pattern">[^\p{C}\p{Z}]+</param>
+                  </data>
+               </choice>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="value">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies the value of the number in standard form.</a:documentation>
+               <choice>
+                  <data type="double"/>
+                  <data type="token">
+                     <param name="pattern">(\-?[\d]+/\-?[\d]+)</param>
+                  </data>
+                  <data type="decimal"/>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -3268,6 +3605,7 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
          <zeroOrMore>
             <choice>
                <text/>
+               <ref name="lg"/>
                <ref name="model.gLike"/>
                <ref name="model.phrase"/>
                <ref name="model.inter"/>
@@ -3289,6 +3627,20 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
          <ref name="att.anchoring.attributes"/>
          <ref name="att.placement.attributes"/>
          <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="graphic">
+      <element name="graphic">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(graphic) indicates the location of a graphic or illustration, either forming part of a text, or providing an image of it. [3.10. Graphics and Other Non-textual Components 12.1. Digital Facsimiles]</a:documentation>
+         <zeroOrMore>
+            <ref name="model.descLike"/>
+         </zeroOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.media.attributes"/>
+         <ref name="att.resourced.attributes"/>
          <ref name="att.typed.attributes"/>
          <empty/>
       </element>
@@ -3406,10 +3758,32 @@ Elements 7.2.6. Speech Contents]</a:documentation>
             <zeroOrMore>
                <choice>
                   <ref name="imprint"/>
+                  <ref name="extent"/>
                   <ref name="biblScope"/>
                </choice>
             </zeroOrMore>
          </group>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="series">
+      <element name="series">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(series information) contains information about the series in which a book or other bibliographic item has appeared. [3.12.2.1. Analytic, Monographic, and Series Levels]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.gLike"/>
+               <ref name="title"/>
+               <ref name="model.ptrLike"/>
+               <ref name="editor"/>
+               <ref name="respStmt"/>
+               <ref name="biblScope"/>
+               <ref name="idno"/>
+               <ref name="model.global"/>
+               <ref name="availability"/>
+            </choice>
+         </zeroOrMore>
          <ref name="att.global.attributes"/>
          <empty/>
       </element>
@@ -3596,6 +3970,9 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <group>
             <oneOrMore>
                <ref name="monogr"/>
+               <zeroOrMore>
+                  <ref name="series"/>
+               </zeroOrMore>
             </oneOrMore>
             <zeroOrMore>
                <choice>
@@ -3608,6 +3985,36 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <ref name="att.canonical.attributes"/>
          <ref name="att.declarable.attributes"/>
          <ref name="att.docStatus.attributes"/>
+         <ref name="att.sortable.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="listBibl">
+      <element name="listBibl">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(citation list) contains a list of bibliographic citations of any kind. [3.12.1. Methods of Encoding Bibliographic References and Lists of References 2.2.7. The Source Description 16.3.2. Declarable Elements]</a:documentation>
+         <group>
+            <zeroOrMore>
+               <ref name="model.headLike"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.milestoneLike"/>
+               </choice>
+            </zeroOrMore>
+            <oneOrMore>
+               <oneOrMore>
+                  <ref name="model.biblLike"/>
+               </oneOrMore>
+               <zeroOrMore>
+                  <choice>
+                     <ref name="model.milestoneLike"/>
+                  </choice>
+               </zeroOrMore>
+            </oneOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declarable.attributes"/>
          <ref name="att.sortable.attributes"/>
          <ref name="att.typed.attributes"/>
          <empty/>
@@ -3644,6 +4051,71 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <empty/>
       </element>
    </define>
+   <define name="lg">
+      <element name="lg">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(line group) contains one or more verse lines functioning as a formal unit, e.g. a stanza, refrain, verse paragraph, etc. [3.13.1. Core Tags for Verse 3.13. Passages of Verse or Drama 7.2.6. Speech Contents]</a:documentation>
+         <group>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.divTop"/>
+                  <ref name="model.global"/>
+               </choice>
+            </zeroOrMore>
+            <choice>
+               <ref name="model.lLike"/>
+               <ref name="model.stageLike"/>
+               <ref name="model.labelLike"/>
+               <ref name="model.pPart.transcriptional"/>
+               <ref name="lg"/>
+            </choice>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.lLike"/>
+                  <ref name="model.stageLike"/>
+                  <ref name="model.labelLike"/>
+                  <ref name="model.pPart.transcriptional"/>
+                  <ref name="model.global"/>
+                  <ref name="lg"/>
+               </choice>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="model.divBottom"/>
+               <zeroOrMore>
+                  <ref name="model.global"/>
+               </zeroOrMore>
+            </zeroOrMore>
+         </group>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="perseus_core-lg-atleast1oflggapl-constraint-rule-14">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="tei:lg">
+               <sch:assert test="count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) &gt; 0">An lg element must contain at least one child l, lg, or gap element.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="perseus_core-lg-abstractModel-structure-lg-in-l-constraint-rule-15">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="tei:lg">
+               <sch:report test="ancestor::tei:l[not(.//tei:note//tei:lg[. = current()])]">Abstract model violation: Lines may not contain line groups.</sch:report>
+            </sch:rule>
+         </pattern>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.divLike.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="sp">
       <element name="sp">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(speech) contains an individual speech in a performance text, or a passage presented as such in a prose or verse text. [3.13.2. Core Tags for Drama 3.13. Passages of Verse or Drama 7.2.2. Speeches and Speakers]</a:documentation>
@@ -3656,6 +4128,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                <ref name="model.listLike"/>
                <ref name="model.attributable"/>
                <ref name="speaker"/>
+               <ref name="lg"/>
+               <ref name="q"/>
             </choice>
          </zeroOrMore>
          <ref name="att.global.attributes"/>
@@ -3825,7 +4299,7 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-s-noNestedS-constraint-rule-14">
+                  id="perseus_core-s-noNestedS-constraint-rule-16">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3971,6 +4445,40 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
          </attribute>
       </optional>
    </define>
+   <define name="ab">
+      <element name="ab">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(anonymous block) contains any component-level unit of text, acting as a container for phrase or inter level elements analogous to, but without the same constraints as, a paragraph. [17.3. Blocks, Segments, and Anchors]</a:documentation>
+         <ref name="macro.abContent"/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="perseus_core-ab-abstractModel-structure-ab-in-l-constraint-rule-17">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:math="http://www.w3.org/1998/Math/MathML"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns:svg="http://www.w3.org/2000/svg"
+                      xmlns:xi="http://www.w3.org/2001/XInclude"
+                      context="tei:l//tei:ab">
+               <sch:assert test="ancestor::tei:floatingText | parent::tei:figure | parent::tei:note">
+          Abstract model violation: Metrical lines may not contain higher-level divisions such as p or ab, unless ab is a child of figure or note, or is a descendant of floatingText.
+        </sch:assert>
+            </sch:rule>
+         </pattern>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.fragmentable.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="anchor">
+      <element name="anchor">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(anchor point) attaches an identifier to a point within a text, whether or not it corresponds with a textual element. [8.4.2. Synchronization and Overlap 17.5. Correspondence and Alignment]</a:documentation>
+         <empty/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="seg">
       <element name="seg">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(arbitrary segment) represents any segmentation of text below the chunk level. [17.3. Blocks, Segments, and Anchors 6.2. Components of the Verse Line 7.2.6. Speech Contents]</a:documentation>
@@ -4031,7 +4539,16 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
          <group>
             <group>
                <ref name="titleStmt"/>
+               <optional>
+                  <ref name="editionStmt"/>
+               </optional>
+               <optional>
+                  <ref name="extent"/>
+               </optional>
                <ref name="publicationStmt"/>
+               <optional>
+                  <ref name="notesStmt"/>
+               </optional>
             </group>
             <oneOrMore>
                <ref name="sourceDesc"/>
@@ -4083,6 +4600,29 @@ Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] nove
          <ref name="att.global.attributes"/>
          <ref name="att.canonical.attributes"/>
          <ref name="att.datable.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="editionStmt">
+      <element name="editionStmt">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(edition statement) groups information relating to one edition of a text. [2.2.2. The Edition Statement 2.2. The File Description]</a:documentation>
+         <choice>
+            <oneOrMore>
+               <ref name="model.pLike"/>
+            </oneOrMore>
+            <zeroOrMore>
+               <ref name="model.respLike"/>
+            </zeroOrMore>
+         </choice>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="extent">
+      <element name="extent">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(extent) describes the approximate size of a text stored on some carrier medium or of some other object, digital or non-digital, specified in any convenient units. [2.2.3. Type and Extent of File 2.2. The File Description 3.12.2.4. Imprint, Size of a Document, and Reprint Information 11.7.1. Object Description]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
          <empty/>
       </element>
    </define>
@@ -4197,6 +4737,18 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
          <empty/>
       </element>
    </define>
+   <define name="notesStmt">
+      <element name="notesStmt">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(notes statement) collects together any notes providing information about a text additional to that recorded in other parts of the bibliographic description. [2.2.6. The Notes Statement 2.2. The File Description]</a:documentation>
+         <oneOrMore>
+            <choice>
+               <ref name="model.noteLike"/>
+            </choice>
+         </oneOrMore>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="sourceDesc">
       <element name="sourceDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(source description) describes the source(s) from which an electronic text was derived or generated, typically a bibliographic description in the case of a digitized text, or a phrase such as born digital for a text which has no previous existence. [2.2.7. The Source Description]</a:documentation>
@@ -4227,6 +4779,17 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
             </choice>
          </oneOrMore>
          <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="projectDesc">
+      <element name="projectDesc">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(project description) describes in detail the aim or purpose for which an electronic file was encoded, together with any other relevant information concerning the process by which it was assembled or collected. [2.3.1. The Project Description 2.3. The Encoding Description 16.3.2. Declarable Elements]</a:documentation>
+         <oneOrMore>
+            <ref name="model.pLike"/>
+         </oneOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.declarable.attributes"/>
          <empty/>
       </element>
    </define>
@@ -4315,7 +4878,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-quotation-quotationContents-constraint-rule-15">
+                  id="perseus_core-quotation-quotationContents-constraint-rule-18">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4399,7 +4962,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-citeStructure-match-citestructure-outer-match-constraint-rule-16">
+                  id="perseus_core-citeStructure-match-citestructure-outer-match-constraint-rule-19">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4411,7 +4974,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-citeStructure-match-citestructure-inner-match-constraint-rule-17">
+                  id="perseus_core-citeStructure-match-citestructure-inner-match-constraint-rule-20">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4568,6 +5131,20 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          <empty/>
       </element>
    </define>
+   <define name="creation">
+      <element name="creation">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(creation) contains information about the creation of a text. [2.4.1. Creation 2.4. The Profile Description]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.limitedPhrase"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.datable.attributes"/>
+         <empty/>
+      </element>
+   </define>
    <define name="langUsage">
       <element name="langUsage">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language usage) describes the languages, sublanguages, registers, dialects, etc. represented within a text. [2.4.2. Language Usage 2.4. The Profile Description 16.3.2. Declarable Elements]</a:documentation>
@@ -4618,10 +5195,33 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          <zeroOrMore>
             <choice>
                <ref name="catRef"/>
+               <ref name="keywords"/>
             </choice>
          </zeroOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.declarable.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="keywords">
+      <element name="keywords">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(keywords) contains a list of keywords or phrases identifying the topic or nature of a text. [2.4.3. The Text Classification]</a:documentation>
+         <choice>
+            <oneOrMore>
+               <ref name="term"/>
+            </oneOrMore>
+            <ref name="list"/>
+         </choice>
+         <ref name="att.global.attributes"/>
+         <optional>
+            <attribute name="scheme">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the controlled vocabulary within which the set of keywords concerned is defined, for example by a <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;taxonomy&gt;</code> element, or by some other resource.</a:documentation>
+               <data type="anyURI">
+                  <param name="pattern">\S+</param>
+               </data>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -4882,7 +5482,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-div-abstractModel-structure-div-in-l-constraint-rule-18">
+                  id="perseus_core-div-abstractModel-structure-div-in-l-constraint-rule-21">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4896,7 +5496,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="perseus_core-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-19">
+                  id="perseus_core-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-22">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:math="http://www.w3.org/1998/Math/MathML"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5017,22 +5617,56 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
       </optional>
    </define>
    <define name="model.persNamePart">
-      <notAllowed/>
+      <choice>
+         <ref name="surname"/>
+         <ref name="forename"/>
+         <ref name="addName"/>
+      </choice>
    </define>
    <define name="model.persNamePart_alternation">
-      <notAllowed/>
+      <choice>
+         <ref name="surname"/>
+         <ref name="forename"/>
+         <ref name="addName"/>
+      </choice>
    </define>
    <define name="model.persNamePart_sequence">
-      <empty/>
+      <ref name="surname"/>
+      <ref name="forename"/>
+      <ref name="addName"/>
    </define>
    <define name="model.persNamePart_sequenceOptional">
-      <empty/>
+      <optional>
+         <ref name="surname"/>
+      </optional>
+      <optional>
+         <ref name="forename"/>
+      </optional>
+      <optional>
+         <ref name="addName"/>
+      </optional>
    </define>
    <define name="model.persNamePart_sequenceOptionalRepeatable">
-      <empty/>
+      <zeroOrMore>
+         <ref name="surname"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="forename"/>
+      </zeroOrMore>
+      <zeroOrMore>
+         <ref name="addName"/>
+      </zeroOrMore>
    </define>
    <define name="model.persNamePart_sequenceRepeatable">
-      <notAllowed/>
+      <oneOrMore>
+         <ref name="surname"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="forename"/>
+      </oneOrMore>
+      <oneOrMore>
+         <ref name="addName"/>
+      </oneOrMore>
    </define>
    <define name="att.datable.iso.attributes">
       <ref name="att.datable.iso.attribute.when-iso"/>
@@ -5160,6 +5794,36 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          <ref name="att.global.attributes"/>
          <ref name="att.datable.attributes"/>
          <ref name="att.editLike.attributes"/>
+         <ref name="att.personal.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="surname">
+      <element name="surname">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(surname) contains a family (inherited) name, as opposed to a given, baptismal, or nick name. [14.2.1. Personal Names]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.personal.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="forename">
+      <element name="forename">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(forename) contains a forename, given or baptismal name. [14.2.1. Personal Names]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.personal.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="addName">
+      <element name="addName">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(additional name) contains an additional name component, such as a nickname, epithet, or alias, or any other descriptive phrase used within a personal name. [14.2.1. Personal Names]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
          <ref name="att.personal.attributes"/>
          <ref name="att.typed.attributes"/>
          <empty/>
@@ -5514,6 +6178,33 @@ Sample values include: 1] no; 2] yes; 3] weak; 4] strong</a:documentation>
       <element name="roleDesc">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role description) describes a character's role in a drama. [7.1.4. Cast Lists]</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="figure">
+      <element name="figure">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(figure) groups elements representing or containing graphic information such as an illustration, formula, or figure. [15.4. Specific Elements for Graphic Images]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <ref name="model.headLike"/>
+               <ref name="model.common"/>
+               <ref name="figDesc"/>
+               <ref name="model.graphicLike"/>
+               <ref name="model.global"/>
+               <ref name="model.divBottom"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.placement.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="figDesc">
+      <element name="figDesc">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(description of figure) contains a brief prose description of the appearance or content of a graphic figure, for use when documenting an image without displaying it. [15.4. Specific Elements for Graphic Images]</a:documentation>
+         <ref name="macro.limitedContent"/>
          <ref name="att.global.attributes"/>
          <empty/>
       </element>
