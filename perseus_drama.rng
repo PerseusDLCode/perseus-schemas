@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2026-06-09T20:26:47Z. . 
+Schema generated from ODD source 2026-06-09T20:59:01Z. . 
 TEI Edition:  
 TEI Edition Location: https://www.tei-c.org/Vault/P5// 
   
@@ -2165,22 +2165,32 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </oneOrMore>
    </define>
    <define name="model.stageLike">
-      <notAllowed/>
+      <choice>
+         <ref name="stage"/>
+      </choice>
    </define>
    <define name="model.stageLike_alternation">
-      <notAllowed/>
+      <choice>
+         <ref name="stage"/>
+      </choice>
    </define>
    <define name="model.stageLike_sequence">
-      <empty/>
+      <ref name="stage"/>
    </define>
    <define name="model.stageLike_sequenceOptional">
-      <empty/>
+      <optional>
+         <ref name="stage"/>
+      </optional>
    </define>
    <define name="model.stageLike_sequenceOptionalRepeatable">
-      <empty/>
+      <zeroOrMore>
+         <ref name="stage"/>
+      </zeroOrMore>
    </define>
    <define name="model.stageLike_sequenceRepeatable">
-      <notAllowed/>
+      <oneOrMore>
+         <ref name="stage"/>
+      </oneOrMore>
    </define>
    <define name="model.entryPart">
       <notAllowed/>
@@ -2420,6 +2430,12 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    <define name="model.catDescPart">
       <notAllowed/>
    </define>
+   <define name="model.castItemPart">
+      <choice>
+         <ref name="role"/>
+         <ref name="roleDesc"/>
+      </choice>
+   </define>
    <define name="model.addressLike">
       <notAllowed/>
    </define>
@@ -2604,6 +2620,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
          <ref name="model.listLike"/>
          <ref name="model.stageLike"/>
          <ref name="model.attributable"/>
+         <ref name="castList"/>
       </choice>
    </define>
    <define name="model.common">
@@ -3578,6 +3595,49 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          <empty/>
       </element>
    </define>
+   <define name="stage">
+      <element name="stage">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(stage direction) contains any kind of stage direction within a dramatic text or fragment. [3.13.2. Core Tags for Drama 3.13. Passages of Verse or Drama 7.2.5. Stage Directions]</a:documentation>
+         <ref name="macro.specialPara"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.ascribed.directed.attributes"/>
+         <ref name="att.placement.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the kind of stage direction.
+Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] novelistic; 6] delivery; 7] modifier; 8] location; 9] mixed</a:documentation>
+               <list>
+                  <oneOrMore>
+                     <choice>
+                        <value>setting</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a setting.</a:documentation>
+                        <value>entrance</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes an entrance.</a:documentation>
+                        <value>exit</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes an exit.</a:documentation>
+                        <value>business</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes stage business.</a:documentation>
+                        <value>novelistic</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">is a narrative, motivating stage direction.</a:documentation>
+                        <value>delivery</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes how a character speaks.</a:documentation>
+                        <value>modifier</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">gives some detail about a character.</a:documentation>
+                        <value>location</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">describes a location.</a:documentation>
+                        <value>mixed</value>
+                        <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">more than one of the above</a:documentation>
+                        <data type="token">
+                           <param name="pattern">[^\p{C}\p{Z}]+</param>
+                        </data>
+                     </choice>
+                  </oneOrMore>
+               </list>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
    <define name="att.lexicographic.normalized.attributes">
       <ref name="att.lexicographic.normalized.attribute.norm"/>
       <ref name="att.lexicographic.normalized.attribute.orig"/>
@@ -4220,6 +4280,9 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
             <oneOrMore>
                <ref name="cRefPattern"/>
             </oneOrMore>
+            <oneOrMore>
+               <ref name="refState"/>
+            </oneOrMore>
          </choice>
          <ref name="att.global.attributes"/>
          <ref name="att.declarable.attributes"/>
@@ -4301,6 +4364,28 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </zeroOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.patternReplacement.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="refState">
+      <element name="refState">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(reference state) specifies one component of a canonical reference defined by the milestone method. [2.3.6.3. Milestone Method 2.3.6. The Reference System Declaration]</a:documentation>
+         <empty/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.edition.attributes"/>
+         <ref name="att.milestoneUnit.attributes"/>
+         <optional>
+            <attribute name="length">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the fixed length of the reference component.</a:documentation>
+               <data type="nonNegativeInteger"/>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="delim">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(delimiter) supplies a delimiting string following the reference component.</a:documentation>
+               <data type="string"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -5022,8 +5107,80 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
    <define name="att.metrical.attribute.met">
       <optional>
          <attribute name="met">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(metrical structure, conventional) contains a user-specified encoding for the conventional metrical structure of the element.</a:documentation>
-            <data type="token"/>
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(metrical structure, conventional) contains a user-specified encoding for the conventional metrical structure of the element.
+Suggested values include: 1] dactylic-hexameter; 2] dactylic-pentameter; 3] elegiac-couplet; 4] iambic-trimeter; 5] iambic-septenarius; 6] trochaic-tetrameter; 7] trochaic-septenarius; 8] anapestic-dimeter; 9] anapestic-tetrameter; 10] sapphic-strophe; 11] sapphic-hendecasyllable; 12] adonic; 13] alcaic-strophe; 14] alcaic-decasyllable; 15] alcaic-enneasyllable; 16] phalaecian-hendecasyllable; 17] lesser-asclepiadean; 18] greater-asclepiadean; 19] glyconic; 20] pherecratean; 21] anacreontic; 22] choliamb; 23] dochmiac</a:documentation>
+            <choice>
+               <value>dactylic-hexameter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Standard line of Greek and Latin epic and didactic verse. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>dactylic-pentameter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Second line of the elegiac couplet. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>elegiac-couplet</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Hexameter + pentameter pair. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;lg&gt;</code>.</a:documentation>
+               <value>iambic-trimeter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Standard dialogue line in Greek drama; equivalent to Latin iambic senarius. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>iambic-septenarius</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Common in Roman comedy (Plautus, Terence). Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>trochaic-tetrameter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Trochaic tetrameter catalectic; Greek drama and Latin comedy. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>trochaic-septenarius</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Common in Roman comedy. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>anapestic-dimeter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Greek drama marching songs and lyric passages. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>anapestic-tetrameter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Anapestic tetrameter catalectic. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>sapphic-strophe</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Three sapphic lines + adonic. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;lg&gt;</code>.</a:documentation>
+               <value>sapphic-hendecasyllable</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Lines 1–3 of the sapphic strophe. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>adonic</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">— ∪ ∪ — ×; closing line of the sapphic strophe. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>alcaic-strophe</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Four-line Alcaic stanza (Horace). Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;lg&gt;</code>.</a:documentation>
+               <value>alcaic-decasyllable</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Lines 1–2 of the alcaic strophe. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>alcaic-enneasyllable</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Line 3 of the alcaic strophe. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>phalaecian-hendecasyllable</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Phalaecian hendecasyllable (Catullus, Martial). Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>lesser-asclepiadean</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Lesser asclepiadean. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>greater-asclepiadean</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Greater asclepiadean. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>glyconic</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Glyconic. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>pherecratean</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Pherecratean; closing line of several Horatian systems. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>anacreontic</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Ionic dimeter (anacreontic). Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>choliamb</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Scazon; iambic trimeter with final spondee (Catullus, Babrius). Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <value>dochmiac</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Dochmiac; tragic lyric for agitation or grief. Use on <code xmlns="http://www.w3.org/1999/xhtml"
+                        xmlns:rng="http://relaxng.org/ns/structure/1.0">&lt;l&gt;</code>.</a:documentation>
+               <data type="token"/>
+            </choice>
          </attribute>
       </optional>
    </define>
@@ -5186,6 +5343,100 @@ Sample values include: 1] no; 2] yes; 3] weak; 4] strong</a:documentation>
                </data>
             </attribute>
          </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="castList">
+      <element name="castList">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list) contains a single cast list or dramatis personae. [7.1.4. Cast Lists 7.1. Front and Back Matter
+ ]</a:documentation>
+         <group>
+            <zeroOrMore>
+               <choice>
+                  <ref name="model.divTop"/>
+                  <ref name="model.global"/>
+               </choice>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="model.common"/>
+               <zeroOrMore>
+                  <ref name="model.global"/>
+               </zeroOrMore>
+            </zeroOrMore>
+            <oneOrMore>
+               <choice>
+                  <ref name="castItem"/>
+               </choice>
+               <zeroOrMore>
+                  <ref name="model.global"/>
+               </zeroOrMore>
+            </oneOrMore>
+            <zeroOrMore>
+               <ref name="model.common"/>
+               <zeroOrMore>
+                  <ref name="model.global"/>
+               </zeroOrMore>
+            </zeroOrMore>
+         </group>
+         <ref name="att.global.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="castItem">
+      <element name="castItem">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(cast list item) contains a single entry within a cast list, describing either a single role or a list of non-speaking roles. [7.1.4. Cast Lists]</a:documentation>
+         <zeroOrMore>
+            <choice>
+               <text/>
+               <ref name="model.gLike"/>
+               <ref name="model.castItemPart"/>
+               <ref name="model.phrase"/>
+               <ref name="model.global"/>
+            </choice>
+         </zeroOrMore>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <optional>
+            <attribute xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                       name="type"
+                       a:defaultValue="role">
+               <a:documentation>characterizes the cast item.</a:documentation>
+               <choice>
+                  <value>role</value>
+                  <a:documentation>the item describes a single role.</a:documentation>
+                  <value>list</value>
+                  <a:documentation>the item describes a list of non-speaking roles.</a:documentation>
+               </choice>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="role">
+      <element name="role">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role) contains the name of a dramatic role, as given in a cast list. [7.1.4. Cast Lists]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <optional>
+            <attribute name="gender">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">specifies the gender of the role.</a:documentation>
+               <list>
+                  <oneOrMore>
+                     <data type="token">
+                        <param name="pattern">[^\p{C}\p{Z}]+</param>
+                     </data>
+                  </oneOrMore>
+               </list>
+            </attribute>
+         </optional>
+         <empty/>
+      </element>
+   </define>
+   <define name="roleDesc">
+      <element name="roleDesc">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(role description) describes a character's role in a drama. [7.1.4. Cast Lists]</a:documentation>
+         <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
          <empty/>
       </element>
    </define>
