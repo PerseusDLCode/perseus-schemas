@@ -9,7 +9,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-06-09T20:26:47Z. . 
+# Schema generated from ODD source 2026-06-09T20:59:01Z. . 
 # TEI Edition:  
 # TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
@@ -1223,12 +1223,12 @@ model.pLike_sequence = p
 model.pLike_sequenceOptional = p?
 model.pLike_sequenceOptionalRepeatable = p*
 model.pLike_sequenceRepeatable = p+
-model.stageLike = notAllowed
-model.stageLike_alternation = notAllowed
-model.stageLike_sequence = empty
-model.stageLike_sequenceOptional = empty
-model.stageLike_sequenceOptionalRepeatable = empty
-model.stageLike_sequenceRepeatable = notAllowed
+model.stageLike = stage
+model.stageLike_alternation = stage
+model.stageLike_sequence = stage
+model.stageLike_sequenceOptional = stage?
+model.stageLike_sequenceOptionalRepeatable = stage*
+model.stageLike_sequenceRepeatable = stage+
 model.entryPart = notAllowed
 model.global.edit = gap
 model.global.edit_alternation = gap
@@ -1282,6 +1282,7 @@ model.divBottom = model.divWrapper | model.divBottomPart
 model.choicePart = abbr | expan | seg
 model.imprintPart = publisher | biblScope | pubPlace
 model.catDescPart = notAllowed
+model.castItemPart = role | roleDesc
 model.addressLike = notAllowed
 model.addressLike_alternation = notAllowed
 model.addressLike_sequence = empty
@@ -1369,6 +1370,7 @@ model.inter =
   | model.listLike
   | model.stageLike
   | model.attributable
+  | castList
 model.common = model.divPart | model.inter
 model.phrase =
   model.segLike
@@ -2129,6 +2131,51 @@ speaker =
     att.placement.attributes,
     empty
   }
+stage =
+  
+  ## (stage direction) contains any kind of stage direction within a dramatic text or fragment. [3.13.2. Core Tags for Drama 3.13. Passages of Verse or Drama 7.2.5. Stage Directions]
+  element stage {
+    macro.specialPara,
+    att.global.attributes,
+    att.ascribed.directed.attributes,
+    att.placement.attributes,
+    
+    ## indicates the kind of stage direction.
+    ## Suggested values include: 1] setting; 2] entrance; 3] exit; 4] business; 5] novelistic; 6] delivery; 7] modifier; 8] location; 9] mixed
+    attribute type {
+      list {
+        (
+         ## describes a setting.
+         "setting"
+         | 
+           ## describes an entrance.
+           "entrance"
+         | 
+           ## describes an exit.
+           "exit"
+         | 
+           ## describes stage business.
+           "business"
+         | 
+           ## is a narrative, motivating stage direction.
+           "novelistic"
+         | 
+           ## describes how a character speaks.
+           "delivery"
+         | 
+           ## gives some detail about a character.
+           "modifier"
+         | 
+           ## describes a location.
+           "location"
+         | 
+           ## more than one of the above
+           "mixed"
+         | xsd:token { pattern = "[^\p{C}\p{Z}]+" })+
+      }
+    }?,
+    empty
+  }
 att.lexicographic.normalized.attributes =
   att.lexicographic.normalized.attribute.norm,
   att.lexicographic.normalized.attribute.orig
@@ -2653,7 +2700,7 @@ refsDecl =
   
   ## (references declaration) specifies how canonical references are constructed for this text. [2.3.6.3. Milestone Method 2.3. The Encoding Description 2.3.6. The Reference System Declaration]
   element refsDecl {
-    (model.pLike+ | citeStructure+ | cRefPattern+),
+    (model.pLike+ | citeStructure+ | cRefPattern+ | refState+),
     att.global.attributes,
     att.declarable.attributes,
     empty
@@ -2748,6 +2795,22 @@ cRefPattern =
     model.pLike*,
     att.global.attributes,
     att.patternReplacement.attributes,
+    empty
+  }
+refState =
+  
+  ## (reference state) specifies one component of a canonical reference defined by the milestone method. [2.3.6.3. Milestone Method 2.3.6. The Reference System Declaration]
+  element refState {
+    empty,
+    att.global.attributes,
+    att.edition.attributes,
+    att.milestoneUnit.attributes,
+    
+    ## specifies the fixed length of the reference component.
+    attribute length { xsd:nonNegativeInteger }?,
+    
+    ## (delimiter) supplies a delimiting string following the reference component.
+    attribute delim { xsd:string }?,
     empty
   }
 classDecl =
@@ -3184,7 +3247,188 @@ att.metrical.attributes =
 att.metrical.attribute.met =
   
   ## (metrical structure, conventional) contains a user-specified encoding for the conventional metrical structure of the element.
-  attribute met { xsd:token }?
+  ## Suggested values include: 1] dactylic-hexameter; 2] dactylic-pentameter; 3] elegiac-couplet; 4] iambic-trimeter; 5] iambic-septenarius; 6] trochaic-tetrameter; 7] trochaic-septenarius; 8] anapestic-dimeter; 9] anapestic-tetrameter; 10] sapphic-strophe; 11] sapphic-hendecasyllable; 12] adonic; 13] alcaic-strophe; 14] alcaic-decasyllable; 15] alcaic-enneasyllable; 16] phalaecian-hendecasyllable; 17] lesser-asclepiadean; 18] greater-asclepiadean; 19] glyconic; 20] pherecratean; 21] anacreontic; 22] choliamb; 23] dochmiac
+  attribute met {
+    [
+      a:documentation [
+        "Standard line of Greek and Latin epic and didactic verse. Use on "
+        ns1:code [ "<l>" ]
+        "."
+      ]
+    ]
+    "dactylic-hexameter"
+    | [
+        a:documentation [
+          "Second line of the elegiac couplet. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "dactylic-pentameter"
+    | [
+        a:documentation [
+          "Hexameter + pentameter pair. Use on "
+          ns1:code [ "<lg>" ]
+          "."
+        ]
+      ]
+      "elegiac-couplet"
+    | [
+        a:documentation [
+          "Standard dialogue line in Greek drama; equivalent to Latin iambic senarius. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "iambic-trimeter"
+    | [
+        a:documentation [
+          "Common in Roman comedy (Plautus, Terence). Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "iambic-septenarius"
+    | [
+        a:documentation [
+          "Trochaic tetrameter catalectic; Greek drama and Latin comedy. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "trochaic-tetrameter"
+    | [
+        a:documentation [
+          "Common in Roman comedy. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "trochaic-septenarius"
+    | [
+        a:documentation [
+          "Greek drama marching songs and lyric passages. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "anapestic-dimeter"
+    | [
+        a:documentation [
+          "Anapestic tetrameter catalectic. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "anapestic-tetrameter"
+    | [
+        a:documentation [
+          "Three sapphic lines + adonic. Use on "
+          ns1:code [ "<lg>" ]
+          "."
+        ]
+      ]
+      "sapphic-strophe"
+    | [
+        a:documentation [
+          "Lines 1–3 of the sapphic strophe. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "sapphic-hendecasyllable"
+    | [
+        a:documentation [
+          "— ∪ ∪ — ×; closing line of the sapphic strophe. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "adonic"
+    | [
+        a:documentation [
+          "Four-line Alcaic stanza (Horace). Use on "
+          ns1:code [ "<lg>" ]
+          "."
+        ]
+      ]
+      "alcaic-strophe"
+    | [
+        a:documentation [
+          "Lines 1–2 of the alcaic strophe. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "alcaic-decasyllable"
+    | [
+        a:documentation [
+          "Line 3 of the alcaic strophe. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "alcaic-enneasyllable"
+    | [
+        a:documentation [
+          "Phalaecian hendecasyllable (Catullus, Martial). Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "phalaecian-hendecasyllable"
+    | [
+        a:documentation [
+          "Lesser asclepiadean. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "lesser-asclepiadean"
+    | [
+        a:documentation [
+          "Greater asclepiadean. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "greater-asclepiadean"
+    | [ a:documentation [ "Glyconic. Use on " ns1:code [ "<l>" ] "." ] ]
+      "glyconic"
+    | [
+        a:documentation [
+          "Pherecratean; closing line of several Horatian systems. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "pherecratean"
+    | [
+        a:documentation [
+          "Ionic dimeter (anacreontic). Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "anacreontic"
+    | [
+        a:documentation [
+          "Scazon; iambic trimeter with final spondee (Catullus, Babrius). Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "choliamb"
+    | [
+        a:documentation [
+          "Dochmiac; tragic lyric for agitation or grief. Use on "
+          ns1:code [ "<l>" ]
+          "."
+        ]
+      ]
+      "dochmiac"
+    | xsd:token
+  }?
 att.metrical.attribute.real =
   
   ## (metrical structure, realized) contains a user-specified encoding for the actual realization of the conventional metrical structure applicable to the element.
@@ -3358,6 +3602,61 @@ rhyme =
     }?,
     empty
   }
+castList =
+  
+  ## (cast list) contains a single cast list or dramatis personae. [7.1.4. Cast Lists 7.1. Front and Back Matter
+  ##  ]
+  element castList {
+    ((model.divTop | model.global)*,
+     (model.common, model.global*)*,
+     ((castItem), model.global*)+,
+     (model.common, model.global*)*),
+    att.global.attributes,
+    empty
+  }
+castItem =
+  
+  ## (cast list item) contains a single entry within a cast list, describing either a single role or a list of non-speaking roles. [7.1.4. Cast Lists]
+  element castItem {
+    (text
+     | model.gLike
+     | model.castItemPart
+     | model.phrase
+     | model.global)*,
+    att.global.attributes,
+    att.typed.attribute.subtype,
+    
+    ## characterizes the cast item.
+    [ a:defaultValue = "role" ]
+    attribute type {
+      
+      ## the item describes a single role.
+      "role"
+      | 
+        ## the item describes a list of non-speaking roles.
+        "list"
+    }?,
+    empty
+  }
+role =
+  
+  ## (role) contains the name of a dramatic role, as given in a cast list. [7.1.4. Cast Lists]
+  element role {
+    macro.phraseSeq,
+    att.global.attributes,
+    
+    ## specifies the gender of the role.
+    attribute gender {
+      list {
+        xsd:token { pattern = "[^\p{C}\p{Z}]+" }+
+      }
+    }?,
+    empty
+  }
+roleDesc =
+  
+  ## (role description) describes a character's role in a drama. [7.1.4. Cast Lists]
+  element roleDesc { macro.phraseSeq, att.global.attributes, empty }
 start = TEI
 sch:ns [ prefix = "tei" uri = "http://www.tei-c.org/ns/1.0" ]
 sch:ns [ prefix = "xs" uri = "http://www.w3.org/2001/XMLSchema" ]

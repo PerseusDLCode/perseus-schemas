@@ -138,6 +138,12 @@
 
       <schemaSpec ident="perseus_core" start="TEI" docLang="en">
 
+        <!-- This is the SINGLE SOURCE OF TRUTH for the Perseus element set. The include lists
+             below are the curated subset of each TEI module. perseus_prose/verse/drama chain
+             from the compiled form of this file and re-select these curated subsets with BARE
+             moduleRefs (no include=), so they inherit changes here automatically. To add or
+             remove an element corpus-wide, edit the include list here only.
+             See ODD-CHAINING-PROTOCOL.md. -->
         <moduleRef key="tei"/>
         <moduleRef key="core"
           include="p head note hi foreign cit gloss gap lb pb
@@ -145,7 +151,7 @@
                    bibl biblStruct biblScope respStmt resp monogr imprint
                    ref quote name milestone list item label
                    add del choice abbr expan
-                   l sp speaker"/>
+                   l sp speaker stage"/>
         <moduleRef key="analysis" include="s w"/>
         <moduleRef key="linking" include="seg"/>
         <moduleRef key="header"
@@ -159,8 +165,66 @@
         <moduleRef key="textstructure" include="TEI text body div"/>
         <moduleRef key="namesdates" include="persName orgName placeName"/>
         <moduleRef key="verse"/>
+        <!-- The drama module supplies cast-list elements. <stage> is NOT here: in TEI P5 it
+             belongs to the core module (added to the core include list above). -->
+        <moduleRef key="drama" include="castList castItem role roleDesc"/>
         <moduleRef key="dictionaries"/>
 
+        <!-- Constrain @met to a controlled vocabulary of Greek and Latin meters, defined ONCE
+             here on att.metrical (verse module) so every genre that uses metrical elements
+             (verse, drama) inherits it without re-declaring. type="semi" keeps the list open
+             (unlisted values are flagged, not rejected). NOTE: the valList MUST carry
+             mode="add"; under a mode="change" attDef a bare <valList> is silently dropped by
+             odd2odd. See ODD-CHAINING-PROTOCOL.md. The controlled vocabulary is drawn from
+             standard classical scholarship (West, Greek Metre; Raven, Latin Metre). -->
+        <classSpec ident="att.metrical" module="verse" mode="change" type="atts">
+          <attList>
+            <attDef ident="met" mode="change">
+              <valList type="semi" mode="add">
+
+                <!-- Dactylic / Elegiac -->
+                <valItem ident="dactylic-hexameter"><desc>Standard line of Greek and Latin epic and didactic verse. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="dactylic-pentameter"><desc>Second line of the elegiac couplet. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="elegiac-couplet"><desc>Hexameter + pentameter pair. Use on <gi>lg</gi>.</desc></valItem>
+
+                <!-- Iambic -->
+                <valItem ident="iambic-trimeter"><desc>Standard dialogue line in Greek drama; equivalent to Latin iambic senarius. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="iambic-septenarius"><desc>Common in Roman comedy (Plautus, Terence). Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Trochaic -->
+                <valItem ident="trochaic-tetrameter"><desc>Trochaic tetrameter catalectic; Greek drama and Latin comedy. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="trochaic-septenarius"><desc>Common in Roman comedy. Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Anapestic -->
+                <valItem ident="anapestic-dimeter"><desc>Greek drama marching songs and lyric passages. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="anapestic-tetrameter"><desc>Anapestic tetrameter catalectic. Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Sapphic -->
+                <valItem ident="sapphic-strophe"><desc>Three sapphic lines + adonic. Use on <gi>lg</gi>.</desc></valItem>
+                <valItem ident="sapphic-hendecasyllable"><desc>Lines 1–3 of the sapphic strophe. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="adonic"><desc>— ∪ ∪ — ×; closing line of the sapphic strophe. Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Alcaic -->
+                <valItem ident="alcaic-strophe"><desc>Four-line Alcaic stanza (Horace). Use on <gi>lg</gi>.</desc></valItem>
+                <valItem ident="alcaic-decasyllable"><desc>Lines 1–2 of the alcaic strophe. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="alcaic-enneasyllable"><desc>Line 3 of the alcaic strophe. Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Asclepiadean / Hendecasyllabic -->
+                <valItem ident="phalaecian-hendecasyllable"><desc>Phalaecian hendecasyllable (Catullus, Martial). Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="lesser-asclepiadean"><desc>Lesser asclepiadean. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="greater-asclepiadean"><desc>Greater asclepiadean. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="glyconic"><desc>Glyconic. Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="pherecratean"><desc>Pherecratean; closing line of several Horatian systems. Use on <gi>l</gi>.</desc></valItem>
+
+                <!-- Other lyric / dramatic -->
+                <valItem ident="anacreontic"><desc>Ionic dimeter (anacreontic). Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="choliamb"><desc>Scazon; iambic trimeter with final spondee (Catullus, Babrius). Use on <gi>l</gi>.</desc></valItem>
+                <valItem ident="dochmiac"><desc>Dochmiac; tragic lyric for agitation or grief. Use on <gi>l</gi>.</desc></valItem>
+
+              </valList>
+            </attDef>
+          </attList>
+        </classSpec>
 
         <!-- Perseus does not transcribe spoken language, recordings, or computer-mediate
              communication -->
