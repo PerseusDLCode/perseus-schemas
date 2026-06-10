@@ -86,6 +86,10 @@
               <catDesc>Prose cited by a single chapter level (much First1KGreek prose).
                 Citation: chapter.</catDesc>
             </category>
+            <category xml:id="prose-chapter-verse">
+              <catDesc>Prose cited by chapter and verse (New Testament and biblical-style texts).
+                Citation: chapter.verse.</catDesc>
+            </category>
             <category xml:id="prose-section">
               <catDesc>Prose cited by a single section level (Platonic Stephanus sections,
                 oratory, letters). Citation: section.</catDesc>
