@@ -78,6 +78,14 @@
               <catDesc>Prose cited book → section, with no chapter division (Aristotle by
                 Bekker, some geography). Citation: book → section.</catDesc>
             </category>
+            <category xml:id="prose-book-chapter">
+              <catDesc>Prose cited book → chapter, with no section division. Citation:
+                book → chapter.</catDesc>
+            </category>
+            <category xml:id="prose-chapter">
+              <catDesc>Prose cited by a single chapter level (much First1KGreek prose).
+                Citation: chapter.</catDesc>
+            </category>
             <category xml:id="prose-section">
               <catDesc>Prose cited by a single section level (Platonic Stephanus sections,
                 oratory, letters). Citation: section.</catDesc>
