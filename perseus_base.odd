@@ -90,6 +90,10 @@
               <catDesc>Prose cited by chapter and verse (New Testament and biblical-style texts).
                 Citation: chapter.verse.</catDesc>
             </category>
+            <category xml:id="prose-epistle">
+              <catDesc>Prose cited by epistle or letter number (EpiDoc div[@type='textpart'][@subtype='epistle']
+                or [@subtype='letter']). Citation: epistle.</catDesc>
+            </category>
             <category xml:id="prose-fragment">
               <catDesc>Prose cited by fragment number (EpiDoc div[@type='textpart'][@subtype='fragment']).
                 Citation: fragment.</catDesc>
