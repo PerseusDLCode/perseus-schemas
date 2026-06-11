@@ -94,6 +94,10 @@
               <catDesc>Prose cited by epistle or letter number (EpiDoc div[@type='textpart'][@subtype='epistle']
                 or [@subtype='letter']). Citation: epistle.</catDesc>
             </category>
+            <category xml:id="prose-paragraph">
+              <catDesc>Prose cited by paragraph number (EpiDoc div[@type='textpart'][@subtype='paragraph']).
+                Citation: paragraph.</catDesc>
+            </category>
             <category xml:id="prose-fragment">
               <catDesc>Prose cited by fragment number (EpiDoc div[@type='textpart'][@subtype='fragment']).
                 Citation: fragment.</catDesc>
