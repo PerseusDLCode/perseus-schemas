@@ -59,6 +59,14 @@
               <catDesc>Verse whose lines are grouped in numbered book divisions (epic: Homer,
                 Virgil, Apollonius, Lucan, Statius). Citation: book → line.</catDesc>
             </category>
+            <category xml:id="verse-book-poem-line">
+              <catDesc>Verse with numbered poems grouped in numbered books; lines cited within
+                poems (Horace Odes, Ovid Amores, Tibullus). Citation: book → poem → line.</catDesc>
+            </category>
+            <category xml:id="verse-poem-line">
+              <catDesc>Verse with numbered poems cited directly, no book division (Catullus,
+                Martial). Citation: poem → line.</catDesc>
+            </category>
           </category>
 
           <category xml:id="prose">
@@ -73,6 +81,14 @@
             <category xml:id="prose-chapter-section">
               <catDesc>Prose cited chapter → section, with no book division (much
                 historiography and biography). Citation: chapter → section.</catDesc>
+            </category>
+            <category xml:id="prose-book">
+              <catDesc>Prose cited by book number only, with no sub-division within books
+                (brief works, CSEL collections). Citation: book.</catDesc>
+            </category>
+            <category xml:id="prose-book-letter">
+              <catDesc>Prose cited book → letter (epistolary collections arranged in books,
+                e.g. Ambrose, Hieronymus). Citation: book.letter.</catDesc>
             </category>
             <category xml:id="prose-book-section">
               <catDesc>Prose cited book → section, with no chapter division (Aristotle by
@@ -101,6 +117,10 @@
             <category xml:id="prose-fragment">
               <catDesc>Prose cited by fragment number (EpiDoc div[@type='textpart'][@subtype='fragment']).
                 Citation: fragment.</catDesc>
+            </category>
+            <category xml:id="prose-commentary-section">
+              <catDesc>Prose cited commentary → section (scholia, commentarii on classical
+                authors). Citation: commentary → section.</catDesc>
             </category>
             <category xml:id="prose-section">
               <catDesc>Prose cited by a single section level (Platonic Stephanus sections,
@@ -135,7 +155,7 @@
                    ref quote q name milestone list item label
                    add del choice abbr expan corr sic
                    num emph lg term rs series listBibl
-                   graphic
+                   graphic mentioned
                    l sp speaker stage"/>
         <moduleRef key="analysis" include="s w"/>
         <moduleRef key="linking" include="seg anchor ab"/>
@@ -148,12 +168,14 @@
                    editorialDecl correction normalization quotation
                    profileDesc creation langUsage language textClass keywords catRef
                    licence change revisionDesc"/>
-        <moduleRef key="textstructure" include="TEI text body div"/>
+        <moduleRef key="textstructure"
+          include="TEI text body div front back opener closer salute signed dateline byline
+                   floatingText"/>
         <moduleRef key="namesdates" include="persName orgName placeName surname forename addName"/>
         <moduleRef key="verse"/>
         <!-- The drama module supplies cast-list elements. <stage> is NOT here: in TEI P5 it
              belongs to the core module (added to the core include list above). -->
-        <moduleRef key="drama" include="castList castItem role roleDesc"/>
+        <moduleRef key="drama" include="castList castGroup castItem role roleDesc set"/>
         <!-- figures module: <figure> and its caption <figDesc> (embedded <graphic> is a core
              element, listed in the core include above). Children must declare this module to
              use figures (see ODD-CHAINING-PROTOCOL.md). -->
