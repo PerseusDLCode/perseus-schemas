@@ -9,7 +9,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-09-08T19:43:28Z. . 
+# Schema generated from ODD source 2026-08-24T20:20:15Z. . 
 # TEI Edition:  
 # TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
@@ -1160,16 +1160,13 @@ model.pPart.editorial_sequenceOptional = choice?, abbr?, expan?
 model.pPart.editorial_sequenceOptionalRepeatable =
   choice*, abbr*, expan*
 model.pPart.editorial_sequenceRepeatable = choice+, abbr+, expan+
-model.pPart.transcriptional = sic | corr | reg | orig | add | del
-model.pPart.transcriptional_alternation =
-  sic | corr | reg | orig | add | del
-model.pPart.transcriptional_sequence = sic, corr, reg, orig, add, del
-model.pPart.transcriptional_sequenceOptional =
-  sic?, corr?, reg?, orig?, add?, del?
+model.pPart.transcriptional = sic | corr | add | del
+model.pPart.transcriptional_alternation = sic | corr | add | del
+model.pPart.transcriptional_sequence = sic, corr, add, del
+model.pPart.transcriptional_sequenceOptional = sic?, corr?, add?, del?
 model.pPart.transcriptional_sequenceOptionalRepeatable =
-  sic*, corr*, reg*, orig*, add*, del*
-model.pPart.transcriptional_sequenceRepeatable =
-  sic+, corr+, reg+, orig+, add+, del+
+  sic*, corr*, add*, del*
+model.pPart.transcriptional_sequenceRepeatable = sic+, corr+, add+, del+
 model.pPart.edit = model.pPart.editorial | model.pPart.transcriptional
 model.pPart.edit_alternation =
   model.pPart.editorial_alternation
@@ -1332,7 +1329,7 @@ model.frontPart.drama = notAllowed
 model.pLike.front = head | byline | dateline
 model.divBottomPart = closer | signed
 model.divBottom = model.divWrapper | model.divBottomPart
-model.choicePart = sic | corr | reg | orig | abbr | expan | seg
+model.choicePart = sic | corr | abbr | expan | seg
 model.imprintPart = publisher | biblScope | pubPlace
 model.catDescPart = notAllowed
 model.addressLike = notAllowed
@@ -1773,22 +1770,6 @@ choice =
     att.global.attributes,
     empty
   }
-reg =
-  
-  ## (regularization) contains a reading which has been regularized or normalized in some sense. [3.5.2. Regularization and
-  ## Normalization 13. Critical Apparatus]
-  element reg {
-    macro.paraContent,
-    att.global.attributes,
-    att.editLike.attributes,
-    att.typed.attributes,
-    empty
-  }
-orig =
-  
-  ## (original form) contains a reading which is marked as following the original, rather than being normalized or corrected. [3.5.2. Regularization and
-  ## Normalization 13. Critical Apparatus]
-  element orig { macro.paraContent, att.global.attributes, empty }
 gap =
   
   ## (gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible. [3.5.3. Additions, Deletions, and Omissions]
