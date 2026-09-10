@@ -33,6 +33,21 @@
         chaining works. The bare <gi>moduleRef</gi>s below (no <att>include</att>) select
         perseus_base's <emph>curated</emph> subset of each module; only <gi>drama</gi> is added.</p>
 
+      <p>Shakespeare/Globe-edition convention on <gi>milestone</gi>: <att>source</att> (already
+        permitted on <gi>milestone</gi> via <ident type="class">att.global</ident> &gt;
+        <ident type="class">att.global.source</ident> -- no customization needed for it to
+        validate) marks a Globe line-number milestone (<att>ed</att>=<val>Globe</val>) whose
+        <att>n</att> was transcribed from the printed edition, as opposed to one arrived at by
+        counting boundaries. Value <val>#globe-edition</val> points to a <gi>bibl</gi> with
+        <att>xml:id</att>=<val>globe-edition</val> in the play's own <gi>sourceDesc</gi>,
+        describing the Globe edition itself (not a specific digitized copy). F1 through-line
+        milestones (<att>ed</att>=<val>F1</val>) never carry <att>source</att>: every one of them
+        is numbered by the same route, so nothing is discriminated by marking it per element; F1's
+        own unidentified provenance is instead recorded once per document, in an
+        <gi>editorialDecl</gi>/<gi>p</gi> in the play's <gi>encodingDesc</gi>. See
+        canonical-engLit/doc/agenda.org, task <ident>phase1/milestone-source-provenance</ident>,
+        and canonical-engLit/CLAUDE.md's encoding-conventions section for the full rationale.</p>
+
       <schemaSpec ident="perseus_drama" source="perseus_base.compiled.odd" start="TEI" docLang="en">
         <moduleRef key="tei"/>
         <moduleRef key="core"/>
