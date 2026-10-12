@@ -156,7 +156,10 @@
                    add del choice abbr expan corr sic
                    num emph lg term rs series listBibl
                    graphic mentioned
-                   l sp speaker stage"/>
+                   l sp speaker stage ellipsis"/>
+        <!-- metamark is <ellipsis>'s required content (TEI P5 4.12.0): an omission the
+             source itself marks, as the Globe's rows of dots mark a lost text. -->
+        <moduleRef key="transcr" include="metamark"/>
         <moduleRef key="analysis" include="s w"/>
         <moduleRef key="linking" include="seg anchor ab"/>
         <moduleRef key="header"

@@ -9,7 +9,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-09-10T20:56:47Z. . 
+# Schema generated from ODD source 2026-10-12T16:29:24Z. . 
 # TEI Edition:  
 # TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
@@ -441,7 +441,7 @@ att.global.rendition.attribute.style =
   attribute style { xsd:string }?
 att.global.rendition.attribute.rendition =
   
-  ## points to a description of the rendering or presentation used for this element in the source text.
+  ## (rendition reference) points to a description of the rendering or presentation used for this element in the source text.
   attribute rendition {
     list {
       xsd:anyURI { pattern = "\S+" }+
@@ -505,9 +505,9 @@ sch:pattern [
         "(   self::tei:classRef                                 | self::tei:dataRef                                 | self::tei:elementRef                                 | self::tei:macroRef                                 | self::tei:moduleRef                                 | self::tei:schemaSpec )                                   and                                   $srcs[2]"
       "\x{a}" ~
       "              When used on a schema description element (like\x{a}" ~
-      "              "
+      "              <"
       sch:value-of [ select = "name(.)" ]
-      "), the @source attribute\x{a}" ~
+      ">), the @source attribute\x{a}" ~
       "              should have only 1 value. (This one has "
       sch:value-of [ select = "count($srcs)" ]
       ".)\x{a}" ~
@@ -606,9 +606,9 @@ sch:pattern [
     "         "
     sch:assert [
       test = "@target"
-      "@targetLang should only be used on "
+      "@targetLang should only be used on <"
       sch:name [ ]
-      " if @target is specified."
+      "> if @target is specified."
     ]
     "\x{a}" ~
     "      "
@@ -739,11 +739,11 @@ sch:pattern [
     sch:assert [
       test = "id( substring( @spanTo, 2 ) ) >> ."
       "\x{a}" ~
-      "	      The element indicated by @spanTo ("
+      "              The element indicated by @spanTo ("
       sch:value-of [ select = "@spanTo" ]
-      ") must follow the current "
+      ") must follow the current <"
       sch:name [ ]
-      " element \x{a}" ~
+      "> element.\x{a}" ~
       "            "
     ]
     "\x{a}" ~
@@ -776,9 +776,11 @@ sch:pattern [
     "         "
     sch:assert [
       test = "@type"
-      "The "
+      "\x{a}" ~
+      "          The <"
       sch:name [ ]
-      " element should not be categorized in detail with @subtype unless also categorized in general with @type"
+      "> element should not be categorized in detail with @subtype unless also categorized in general with @type.\x{a}" ~
+      "        "
     ]
     "\x{a}" ~
     "      "
@@ -926,6 +928,8 @@ att.divLike.attribute.sample =
   }?
 att.global.attributes =
   att.global.analytic.attributes,
+  att.global.change.attributes,
+  att.global.facs.attributes,
   att.global.linking.attributes,
   att.global.rendition.attributes,
   att.global.responsibility.attributes,
@@ -1276,12 +1280,12 @@ model.stageLike_sequenceOptional = stage?
 model.stageLike_sequenceOptionalRepeatable = stage*
 model.stageLike_sequenceRepeatable = stage+
 model.entryPart = notAllowed
-model.global.edit = gap
-model.global.edit_alternation = gap
-model.global.edit_sequence = gap
-model.global.edit_sequenceOptional = gap?
-model.global.edit_sequenceOptionalRepeatable = gap*
-model.global.edit_sequenceRepeatable = gap+
+model.global.edit = gap | ellipsis
+model.global.edit_alternation = gap | ellipsis
+model.global.edit_sequence = gap, ellipsis
+model.global.edit_sequenceOptional = gap?, ellipsis?
+model.global.edit_sequenceOptionalRepeatable = gap*, ellipsis*
+model.global.edit_sequenceRepeatable = gap+, ellipsis+
 model.divPart = model.lLike | model.pLike | lg | sp
 model.placeNamePart = placeName
 model.placeNamePart_alternation = placeName
@@ -1386,6 +1390,7 @@ model.global =
   | model.milestoneLike
   | model.noteLike
   | model.global.edit
+  | metamark
   | figure
 model.biblPart =
   model.respLike
@@ -1517,9 +1522,9 @@ sch:pattern [
       test = "string-length( normalize-space(.) ) gt 0"
       " @calendar indicates one or more\x{a}" ~
       "              systems or calendars to which the date represented by the content of this element belongs,\x{a}" ~
-      "              but this "
+      "              but this <"
       sch:name [ ]
-      " element has no textual content."
+      "> element has no textual content."
     ]
     "\x{a}" ~
     "      "
@@ -1602,7 +1607,7 @@ p =
              test =
                "(ancestor::tei:ab or ancestor::tei:p) and                        not( ancestor::tei:floatingText                           | parent::tei:exemplum                           | parent::tei:item                           | parent::tei:note                           | parent::tei:q                           | parent::tei:quote                           | parent::tei:remarks                           | parent::tei:said                           | parent::tei:sp                           | parent::tei:stage                           | parent::tei:cell                           | parent::tei:figure )"
              "\x{a}" ~
-             "          Abstract model violation: Paragraphs may not occur inside other paragraphs or ab elements.\x{a}" ~
+             "          Abstract model violation: Paragraphs may not occur inside other paragraphs or <ab> elements.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -1624,7 +1629,7 @@ p =
              test =
                "ancestor::tei:floatingText | parent::tei:figure | parent::tei:note"
              "\x{a}" ~
-             "          Abstract model violation: Metrical lines may not contain higher-level structural elements such as div, p, or ab, unless p is a child of figure or note, or is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: Metrical lines (<l> elements) may not contain higher-level structural elements such as <div>, <p>, or <ab>, unless <p> is a child of <figure> or <note>, or is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -1667,6 +1672,7 @@ q =
     macro.specialPara,
     att.global.attributes,
     att.ascribed.directed.attributes,
+    att.typed.attribute.subtype,
     
     ## (type) may be used to indicate whether the offset passage is spoken or thought, or to characterize it more finely.
     ## Suggested values include: 1] spoken (spoken); 2] thought (thought); 3] written (written); 4] soCalled (so called); 5] foreign (foreign); 6] distinct (distinct); 7] term; 8] emph (emph); 9] mentioned (mentioned)
@@ -1730,6 +1736,7 @@ gloss =
     att.global.attributes,
     att.cReferencing.attributes,
     att.declaring.attributes,
+    att.placement.attributes,
     att.pointing.attributes,
     att.typed.attributes,
     empty
@@ -1816,6 +1823,16 @@ gap =
     attribute agent {
       xsd:token { pattern = "[^\p{C}\p{Z}]+" }
     }?,
+    empty
+  }
+ellipsis =
+  
+  ## (deliberately marked omission) indicates a purposeful marking in the source document signalling that content has been omitted, and may also supply or describe the omitted content. [3.5.3. Additions, Deletions, and Omissions]
+  element ellipsis {
+    (metamark, model.descLike?),
+    att.global.attributes,
+    att.dimensions.attributes,
+    att.timed.attributes,
     empty
   }
 add =
@@ -1951,9 +1968,9 @@ ref =
            "               "
            sch:report [
              test = "@target and @cRef"
-             "Only one of the attributes @target and @cRef may be supplied on "
+             "Only one of the attributes @target and @cRef may be supplied on <"
              sch:name [ ]
-             "."
+             ">."
            ]
            "\x{a}" ~
            "            "
@@ -1987,7 +2004,11 @@ ref =
            "               "
            sch:assert [
              test = "tei:label"
-             'The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element'
+             "\x{a}" ~
+             '          The content of a "gloss" list should include a sequence of\x{a}' ~
+             "          one or more pairs of a <label> element followed by an\x{a}" ~
+             "          <item> element.\x{a}" ~
+             "        "
            ]
            "\x{a}" ~
            "            "
@@ -2330,7 +2351,7 @@ l =
            sch:report [
              test =
                "ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]"
-             "Abstract model violation: Lines may not contain lines or lg elements."
+             "Abstract model violation: Metrical lines (<l> elements) may not contain <l> or <lg> elements."
            ]
            "\x{a}" ~
            "            "
@@ -2372,7 +2393,7 @@ lg =
            sch:assert [
              test =
                "count(descendant::tei:lg|descendant::tei:l|descendant::tei:gap) > 0"
-             "An lg element must contain at least one child l, lg, or gap element."
+             "An <lg> element must contain at least one child <l>, <lg>, or <gap> element."
            ]
            "\x{a}" ~
            "            "
@@ -2440,6 +2461,7 @@ stage =
     macro.specialPara,
     att.global.attributes,
     att.ascribed.directed.attributes,
+    att.performed.attributes,
     att.placement.attributes,
     
     ## indicates the kind of stage direction.
@@ -2474,6 +2496,51 @@ stage =
            ## more than one of the above
            "mixed"
          | xsd:token { pattern = "[^\p{C}\p{Z}]+" })+
+      }
+    }?,
+    empty
+  }
+att.global.facs.attributes = att.global.facs.attribute.facs
+att.global.facs.attribute.facs =
+  
+  ## (facsimile) points to one or more images, portions of an image, or surfaces which correspond to the current element.
+  attribute facs {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
+att.global.change.attributes = att.global.change.attribute.change
+att.global.change.attribute.change =
+  [
+    a:documentation [
+      "points to one or more "
+      ns1:code [ "<change>" ]
+      " elements documenting a state or revision campaign to which the element bearing this attribute and its children have been assigned by the encoder."
+    ]
+  ]
+  attribute change {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
+metamark =
+  
+  ## contains or describes any kind of graphic or written signal within a document the function of which is to determine how it should be read rather than forming part of the actual content of the document. [12.3.4.2. Metamarks]
+  element metamark {
+    macro.specialPara,
+    att.global.attributes,
+    att.placement.attributes,
+    att.spanning.attributes,
+    
+    ## describes the function (for example status, insertion, deletion, transposition) of the metamark.
+    attribute function {
+      xsd:token { pattern = "[^\p{C}\p{Z}]+" }
+    }?,
+    
+    ## identifies one or more elements to which the metamark applies.
+    attribute target {
+      list {
+        xsd:anyURI { pattern = "\S+" }+
       }
     }?,
     empty
@@ -2577,7 +2644,7 @@ s =
            "               "
            sch:report [
              test = "tei:s"
-             "You may not nest one s element within another: use seg instead"
+             "You may not nest one <s> element within another: use <seg> instead."
            ]
            "\x{a}" ~
            "            "
@@ -2693,7 +2760,7 @@ ab =
              test =
                "ancestor::tei:floatingText | parent::tei:figure | parent::tei:note"
              "\x{a}" ~
-             "          Abstract model violation: Metrical lines may not contain higher-level divisions such as p or ab, unless ab is a child of figure or note, or is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: Metrical lines (<l> elements) may not contain higher-level divisions such as <p> or <ab>, unless <ab> is a child of <figure> or <note>, or is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -3033,9 +3100,9 @@ quotation =
            sch:report [
              test = "not( @marks )  and  not( tei:p )"
              "\x{a}" ~
-             "          On "
+             "          On <"
              sch:name [ ]
-             ", either the @marks attribute should be used, or a paragraph of description provided\x{a}" ~
+             ">, either the @marks attribute should be used, or a paragraph of description provided.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -3109,9 +3176,9 @@ citeStructure =
            "               "
            sch:assert [
              test = "starts-with(@match,'/')"
-             "An XPath in @match on the outer "
+             "An XPath in @match on the outer <"
              sch:name [ ]
-             " must start with '/'."
+             "> must start with '/'."
            ]
            "\x{a}" ~
            "            "
@@ -3130,9 +3197,9 @@ citeStructure =
            "               "
            sch:assert [
              test = "not(starts-with(@match,'/'))"
-             "An XPath in @match must not start with '/' except on the outer "
+             "An XPath in @match must not start with '/' except on the outer <"
              sch:name [ ]
-             "."
+             ">."
            ]
            "\x{a}" ~
            "            "
@@ -3432,7 +3499,7 @@ floatingText =
            sch:assert [
              test = "ancestor::tei:floatingText"
              "\x{a}" ~
-             "          Abstract model violation: Metrical lines may not contain higher-level structural elements such as div, unless div is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: Metrical lines (<l> elements) may not contain higher-level structural elements such as <div>, unless <div> is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -3454,7 +3521,7 @@ floatingText =
              test =
                "(ancestor::tei:p or ancestor::tei:ab) and not(ancestor::tei:floatingText)"
              "\x{a}" ~
-             "          Abstract model violation: p and ab may not contain higher-level structural elements such as div, unless div is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: <p> and <ab> may not contain higher-level structural elements such as <div>, unless <div> is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -4154,6 +4221,15 @@ figDesc =
   
   ## (description of figure) contains a brief prose description of the appearance or content of a graphic figure, for use when documenting an image without displaying it. [15.4. Specific Elements for Graphic Images]
   element figDesc { macro.limitedContent, att.global.attributes, empty }
+att.performed.attributes = att.performed.attribute.perf
+att.performed.attribute.perf =
+  
+  ## (performance) identifies the performance or performances in which this element occurred.
+  attribute perf {
+    list {
+      xsd:anyURI { pattern = "\S+" }+
+    }
+  }?
 set =
   
   ## (setting) contains a description of the setting, time, locale, appearance, etc., of the action of a play, typically found in the front matter of a printed performance text (not a stage direction). [7.1. Front and Back Matter
@@ -4173,6 +4249,7 @@ castList =
      ((castItem | castGroup), model.global*)+,
      (model.common, model.global*)*),
     att.global.attributes,
+    att.performed.attributes,
     empty
   }
 castGroup =
@@ -4188,6 +4265,7 @@ castGroup =
      ((castItem | castGroup | roleDesc), model.global*)+,
      model.global*),
     att.global.attributes,
+    att.performed.attributes,
     empty
   }
 castItem =
@@ -4200,6 +4278,7 @@ castItem =
      | model.phrase
      | model.global)*,
     att.global.attributes,
+    att.performed.attributes,
     att.typed.attribute.subtype,
     
     ## characterizes the cast item.
@@ -4220,6 +4299,7 @@ role =
   element role {
     macro.phraseSeq,
     att.global.attributes,
+    att.performed.attributes,
     
     ## specifies the gender of the role.
     attribute gender {

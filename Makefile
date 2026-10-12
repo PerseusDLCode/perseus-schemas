@@ -3,6 +3,8 @@
 # ============================================================
 TEI_XSL_DIR := $(HOME)/tei-xsl/xml/tei/stylesheet
 SAXON_JAR   := /opt/homebrew/Cellar/saxon/13.0/libexec/saxon-he-13.0.jar
+# TEI P5 4.12.0 or later: <ellipsis> (perseus_base.odd) is new in 4.12.0, and an older
+# p5subset drops it, and <metamark> with it, without a word (ODD-CHAINING-PROTOCOL.md).
 P5SUBSET    := $(HOME)/tei-xsl/p5subset.xml
 ODD2ODD_XSL := $(TEI_XSL_DIR)/odds/odd2odd.xsl
 ODD2RNG_XSL := $(TEI_XSL_DIR)/odds/odd2relax.xsl

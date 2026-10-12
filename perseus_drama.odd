@@ -51,6 +51,7 @@
       <schemaSpec ident="perseus_drama" source="perseus_base.compiled.odd" start="TEI" docLang="en">
         <moduleRef key="tei"/>
         <moduleRef key="core"/>
+        <moduleRef key="transcr"/>
         <moduleRef key="analysis"/>
         <moduleRef key="linking"/>
         <moduleRef key="header"/>
