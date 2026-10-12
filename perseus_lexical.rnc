@@ -9,7 +9,7 @@ namespace teix = "http://www.tei-c.org/ns/Examples"
 namespace xi = "http://www.w3.org/2001/XInclude"
 namespace xlink = "http://www.w3.org/1999/xlink"
 
-# Schema generated from ODD source 2026-08-24T20:20:22Z. . 
+# Schema generated from ODD source 2026-10-12T16:29:26Z. . 
 # TEI Edition:  
 # TEI Edition Location: https://www.tei-c.org/Vault/P5// 
 #
@@ -439,7 +439,7 @@ att.global.rendition.attribute.style =
   attribute style { xsd:string }?
 att.global.rendition.attribute.rendition =
   
-  ## points to a description of the rendering or presentation used for this element in the source text.
+  ## (rendition reference) points to a description of the rendering or presentation used for this element in the source text.
   attribute rendition {
     list {
       xsd:anyURI { pattern = "\S+" }+
@@ -503,9 +503,9 @@ sch:pattern [
         "(   self::tei:classRef                                 | self::tei:dataRef                                 | self::tei:elementRef                                 | self::tei:macroRef                                 | self::tei:moduleRef                                 | self::tei:schemaSpec )                                   and                                   $srcs[2]"
       "\x{a}" ~
       "              When used on a schema description element (like\x{a}" ~
-      "              "
+      "              <"
       sch:value-of [ select = "name(.)" ]
-      "), the @source attribute\x{a}" ~
+      ">), the @source attribute\x{a}" ~
       "              should have only 1 value. (This one has "
       sch:value-of [ select = "count($srcs)" ]
       ".)\x{a}" ~
@@ -604,9 +604,9 @@ sch:pattern [
     "         "
     sch:assert [
       test = "@target"
-      "@targetLang should only be used on "
+      "@targetLang should only be used on <"
       sch:name [ ]
-      " if @target is specified."
+      "> if @target is specified."
     ]
     "\x{a}" ~
     "      "
@@ -730,11 +730,11 @@ sch:pattern [
     sch:assert [
       test = "id( substring( @spanTo, 2 ) ) >> ."
       "\x{a}" ~
-      "	      The element indicated by @spanTo ("
+      "              The element indicated by @spanTo ("
       sch:value-of [ select = "@spanTo" ]
-      ") must follow the current "
+      ") must follow the current <"
       sch:name [ ]
-      " element \x{a}" ~
+      "> element.\x{a}" ~
       "            "
     ]
     "\x{a}" ~
@@ -767,9 +767,11 @@ sch:pattern [
     "         "
     sch:assert [
       test = "@type"
-      "The "
+      "\x{a}" ~
+      "          The <"
       sch:name [ ]
-      " element should not be categorized in detail with @subtype unless also categorized in general with @type"
+      "> element should not be categorized in detail with @subtype unless also categorized in general with @type.\x{a}" ~
+      "        "
     ]
     "\x{a}" ~
     "      "
@@ -1250,7 +1252,6 @@ model.entryPart =
   | usg
   | lbl
   | xr
-  | re
 model.entryPart.top =
   model.biblLike
   | cit
@@ -1264,7 +1265,6 @@ model.entryPart.top =
   | usg
   | lbl
   | xr
-  | re
 model.global.edit = gap
 model.global.edit_alternation = gap
 model.global.edit_sequence = gap
@@ -1516,9 +1516,9 @@ sch:pattern [
       test = "string-length( normalize-space(.) ) gt 0"
       " @calendar indicates one or more\x{a}" ~
       "              systems or calendars to which the date represented by the content of this element belongs,\x{a}" ~
-      "              but this "
+      "              but this <"
       sch:name [ ]
-      " element has no textual content."
+      "> element has no textual content."
     ]
     "\x{a}" ~
     "      "
@@ -1601,7 +1601,7 @@ p =
              test =
                "(ancestor::tei:ab or ancestor::tei:p) and                        not( ancestor::tei:floatingText                           | parent::tei:exemplum                           | parent::tei:item                           | parent::tei:note                           | parent::tei:q                           | parent::tei:quote                           | parent::tei:remarks                           | parent::tei:said                           | parent::tei:sp                           | parent::tei:stage                           | parent::tei:cell                           | parent::tei:figure )"
              "\x{a}" ~
-             "          Abstract model violation: Paragraphs may not occur inside other paragraphs or ab elements.\x{a}" ~
+             "          Abstract model violation: Paragraphs may not occur inside other paragraphs or <ab> elements.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -1623,7 +1623,7 @@ p =
              test =
                "ancestor::tei:floatingText | parent::tei:figure | parent::tei:note"
              "\x{a}" ~
-             "          Abstract model violation: Metrical lines may not contain higher-level structural elements such as div, p, or ab, unless p is a child of figure or note, or is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: Metrical lines (<l> elements) may not contain higher-level structural elements such as <div>, <p>, or <ab>, unless <p> is a child of <figure> or <note>, or is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -1682,6 +1682,7 @@ gloss =
     att.global.attributes,
     att.cReferencing.attributes,
     att.declaring.attributes,
+    att.placement.attributes,
     att.pointing.attributes,
     att.typed.attributes,
     empty
@@ -1865,9 +1866,9 @@ ref =
            "               "
            sch:report [
              test = "@target and @cRef"
-             "Only one of the attributes @target and @cRef may be supplied on "
+             "Only one of the attributes @target and @cRef may be supplied on <"
              sch:name [ ]
-             "."
+             ">."
            ]
            "\x{a}" ~
            "            "
@@ -1901,7 +1902,11 @@ ref =
            "               "
            sch:assert [
              test = "tei:label"
-             'The content of a "gloss" list should include a sequence of one or more pairs of a label element followed by an item element'
+             "\x{a}" ~
+             '          The content of a "gloss" list should include a sequence of\x{a}' ~
+             "          one or more pairs of a <label> element followed by an\x{a}" ~
+             "          <item> element.\x{a}" ~
+             "        "
            ]
            "\x{a}" ~
            "            "
@@ -2201,7 +2206,7 @@ l =
            sch:report [
              test =
                "ancestor::tei:l[not(.//tei:note//tei:l[. = current()])]"
-             "Abstract model violation: Lines may not contain lines or lg elements."
+             "Abstract model violation: Metrical lines (<l> elements) may not contain <l> or <lg> elements."
            ]
            "\x{a}" ~
            "            "
@@ -2339,7 +2344,7 @@ s =
            "               "
            sch:report [
              test = "tei:s"
-             "You may not nest one s element within another: use seg instead"
+             "You may not nest one <s> element within another: use <seg> instead."
            ]
            "\x{a}" ~
            "            "
@@ -2732,9 +2737,9 @@ quotation =
            sch:report [
              test = "not( @marks )  and  not( tei:p )"
              "\x{a}" ~
-             "          On "
+             "          On <"
              sch:name [ ]
-             ", either the @marks attribute should be used, or a paragraph of description provided\x{a}" ~
+             ">, either the @marks attribute should be used, or a paragraph of description provided.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -2808,9 +2813,9 @@ citeStructure =
            "               "
            sch:assert [
              test = "starts-with(@match,'/')"
-             "An XPath in @match on the outer "
+             "An XPath in @match on the outer <"
              sch:name [ ]
-             " must start with '/'."
+             "> must start with '/'."
            ]
            "\x{a}" ~
            "            "
@@ -2829,9 +2834,9 @@ citeStructure =
            "               "
            sch:assert [
              test = "not(starts-with(@match,'/'))"
-             "An XPath in @match must not start with '/' except on the outer "
+             "An XPath in @match must not start with '/' except on the outer <"
              sch:name [ ]
-             "."
+             ">."
            ]
            "\x{a}" ~
            "            "
@@ -3083,7 +3088,7 @@ body =
            sch:assert [
              test = "ancestor::tei:floatingText"
              "\x{a}" ~
-             "          Abstract model violation: Metrical lines may not contain higher-level structural elements such as div, unless div is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: Metrical lines (<l> elements) may not contain higher-level structural elements such as <div>, unless <div> is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -3105,7 +3110,7 @@ body =
              test =
                "(ancestor::tei:p or ancestor::tei:ab) and not(ancestor::tei:floatingText)"
              "\x{a}" ~
-             "          Abstract model violation: p and ab may not contain higher-level structural elements such as div, unless div is a descendant of floatingText.\x{a}" ~
+             "          Abstract model violation: <p> and <ab> may not contain higher-level structural elements such as <div>, unless <div> is a descendant of <floatingText>.\x{a}" ~
              "        "
            ]
            "\x{a}" ~
@@ -4206,21 +4211,6 @@ xr =
     attribute type {
       xsd:token { pattern = "[^\p{C}\p{Z}]+" }
     }?,
-    empty
-  }
-re =
-  
-  ## (related entry) contains a dictionary entry for a lexical item related to the headword, such as a compound phrase or derived form, embedded inside a larger entry. [10.3.6. Related Entries]
-  element re {
-    (text
-     | model.gLike
-     | sense
-     | model.entryPart.top
-     | model.phrase
-     | model.global)*,
-    att.global.attributes,
-    att.lexicographic.attributes,
-    att.typed.attributes,
     empty
   }
 oRef =
