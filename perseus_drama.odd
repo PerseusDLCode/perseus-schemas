@@ -60,6 +60,8 @@
         <moduleRef key="verse"/>
         <moduleRef key="figures"/>
         <moduleRef key="drama"/>
+        <!-- particDesc, for the speakers in <listPerson> (perseus_base.odd) -->
+        <moduleRef key="corpus"/>
       </schemaSpec>
 
     </body>

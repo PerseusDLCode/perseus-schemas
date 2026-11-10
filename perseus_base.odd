@@ -174,7 +174,13 @@
         <moduleRef key="textstructure"
           include="TEI text body div front back opener closer salute signed dateline byline
                    floatingText"/>
-        <moduleRef key="namesdates" include="persName orgName placeName surname forename addName"/>
+        <!-- person, personGrp and listPerson, with particDesc (corpus module) below: a play's
+             speakers, which <sp @who> points to (DraCor, LEMDO). The printed Dramatis Personae
+             stays a <castList> in <front>; its roles point to their persons with @corresp. -->
+        <moduleRef key="namesdates"
+          include="persName orgName placeName surname forename addName
+                   person personGrp listPerson"/>
+        <moduleRef key="corpus" include="particDesc"/>
         <moduleRef key="verse"/>
         <!-- The drama module supplies cast-list elements. <stage> is NOT here: in TEI P5 it
              belongs to the core module (added to the core include list above). -->
